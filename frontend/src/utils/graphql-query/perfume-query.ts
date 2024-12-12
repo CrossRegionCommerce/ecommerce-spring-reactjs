@@ -1,25 +1,25 @@
-export const getAllPerfumesByQuery = `
+export const getAllProductsByQuery = `
     {
-        perfumes {
+        products {
             id
-            perfumeTitle
-            perfumer
+            productTitle
+            productr
             price
             filename
-            perfumeRating
+            productRating
         }
     }
 `;
 
-export const getPerfumeByQuery = (id: string) => `
+export const getProductByQuery = (id: string) => `
     {
-        perfume(id: ${id}) {
+        product(id: ${id}) {
             id
-            perfumeTitle
-            perfumer
+            productTitle
+            productr
             year
             country
-            perfumeGender
+            productGender
             fragranceTopNotes
             fragranceMiddleNotes
             fragranceBaseNotes
@@ -27,7 +27,7 @@ export const getPerfumeByQuery = (id: string) => `
             price
             volume
             type
-            perfumeRating
+            productRating
             reviews {
                 id
                 author
@@ -39,15 +39,15 @@ export const getPerfumeByQuery = (id: string) => `
     }
 `;
 
-export const gePerfumesByIdsQuery = (ids: Array<number>) => `
+export const geProductsByIdsQuery = (ids: Array<number>) => `
     {
-        perfumesIds(ids: [${ids}]) {
+        productsIds(ids: [${ids}]) {
             id
-            perfumeTitle
-            perfumer
+            productTitle
+            productr
             price
             filename
-            perfumeRating
+            productRating
         }
     }
 `;

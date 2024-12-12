@@ -24,15 +24,15 @@ public class ReviewController {
     private final SimpMessagingTemplate messagingTemplate;
 
     @GetMapping(PERFUME_ID)
-    public ResponseEntity<List<ReviewResponse>> getReviewsByPerfumeId(@PathVariable Long perfumeId) {
-        return ResponseEntity.ok(reviewMapper.getReviewsByPerfumeId(perfumeId));
+    public ResponseEntity<List<ReviewResponse>> getReviewsByProductId(@PathVariable Long productId) {
+        return ResponseEntity.ok(reviewMapper.getReviewsByProductId(productId));
     }
 
     @PostMapping
-    public ResponseEntity<ReviewResponse> addReviewToPerfume(@Valid @RequestBody ReviewRequest reviewRequest,
+    public ResponseEntity<ReviewResponse> addReviewToProduct(@Valid @RequestBody ReviewRequest reviewRequest,
                                                              BindingResult bindingResult) {
-        ReviewResponse review = reviewMapper.addReviewToPerfume(reviewRequest, reviewRequest.getPerfumeId(), bindingResult);
-        messagingTemplate.convertAndSend("/topic/reviews/" + reviewRequest.getPerfumeId(), review);
+        ReviewResponse review = reviewMapper.addReviewToProduct(reviewRequest, reviewRequest.getProductId(), bindingResult);
+        messagingTemplate.convertAndSend("/topic/reviews/" + reviewRequest.getProductId(), review);
         return ResponseEntity.ok(review);
     }
 }

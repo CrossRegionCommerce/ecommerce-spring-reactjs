@@ -1,10 +1,10 @@
 import React from "react";
 
 import { mockDispatch, mountWithStore } from "../../../../utils/test/testHelper";
-import PerfumeCardsSlider from "../PerfumeCardsSlider";
-import PerfumeCardsSliderItem from "../PerfumeCardsSliderItem/PerfumeCardsSliderItem";
+import ProductCardsSlider from "../ProductCardsSlider";
+import ProductCardsSliderItem from "../ProductCardsSliderItem/ProductCardsSliderItem";
 
-describe("PerfumeCardsSlider", () => {
+describe("ProductCardsSlider", () => {
     let mockDispatchFn: jest.Mock;
 
     beforeEach(() => {
@@ -12,15 +12,15 @@ describe("PerfumeCardsSlider", () => {
     });
 
     it("should render correctly", () => {
-        const wrapper = mountWithStore(<PerfumeCardsSlider />);
+        const wrapper = mountWithStore(<ProductCardsSlider />);
         expect(wrapper.text().includes("PERSONALLY RECOMMENDED")).toBe(true);
-        expect(wrapper.find(PerfumeCardsSliderItem).length).toEqual(7);
+        expect(wrapper.find(ProductCardsSliderItem).length).toEqual(7);
         expect(mockDispatchFn).nthCalledWith(1, expect.any(Function));
     });
 
-    it("should unmount PerfumeCardsSlider", () => {
-        const wrapper = mountWithStore(<PerfumeCardsSlider />);
+    it("should unmount ProductCardsSlider", () => {
+        const wrapper = mountWithStore(<ProductCardsSlider />);
         wrapper.unmount();
-        expect(mockDispatchFn).nthCalledWith(2, { type: "perfumes/resetPerfumesState" });
+        expect(mockDispatchFn).nthCalledWith(2, { type: "products/resetProductsState" });
     });
 });

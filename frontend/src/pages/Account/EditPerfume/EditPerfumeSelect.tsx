@@ -10,7 +10,7 @@ type PropsType = {
     values: Array<string>;
 };
 
-const EditPerfumeSelect: FC<PropsType> = ({ title, name, error, placeholder, disabled, values }): ReactElement => {
+const EditProductSelect: FC<PropsType> = ({ title, name, error, placeholder, disabled, values }): ReactElement => {
     return (
         <Row className={"form-item"}>
             <Col span={6}>
@@ -31,4 +31,4 @@ const EditPerfumeSelect: FC<PropsType> = ({ title, name, error, placeholder, dis
     );
 };
 
-export default EditPerfumeSelect;
+export default EditProductSelect;

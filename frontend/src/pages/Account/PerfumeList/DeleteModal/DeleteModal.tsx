@@ -1,31 +1,31 @@
 import React, { FC, ReactElement } from "react";
 import { Col, Modal, Row, Typography } from "antd";
 
-import { PerfumeResponse } from "../../../../types/types";
+import { ProductResponse } from "../../../../types/types";
 import "./DeleteModal.css";
 
 type PropsType = {
     visible: boolean;
-    deletePerfumeHandler: () => void;
+    deleteProductHandler: () => void;
     handleCancel: () => void;
-    perfumeInfo?: PerfumeResponse;
+    productInfo?: ProductResponse;
 };
 
-const DeleteModal: FC<PropsType> = ({ visible, deletePerfumeHandler, handleCancel, perfumeInfo }): ReactElement => {
+const DeleteModal: FC<PropsType> = ({ visible, deleteProductHandler, handleCancel, productInfo }): ReactElement => {
     return (
-        <Modal title="Delete perfume" visible={visible} onOk={deletePerfumeHandler} onCancel={handleCancel}>
+        <Modal title="Delete product" visible={visible} onOk={deleteProductHandler} onCancel={handleCancel}>
             <Row>
-                <Col span={12} className={"delete-modal-perfume-image-wrapper"}>
+                <Col span={12} className={"delete-modal-product-image-wrapper"}>
                     <img
-                        className={"delete-modal-perfume-image"}
-                        alt={perfumeInfo?.perfumeTitle}
-                        src={perfumeInfo?.filename}
+                        className={"delete-modal-product-image"}
+                        alt={productInfo?.productTitle}
+                        src={productInfo?.filename}
                     />
                 </Col>
                 <Col span={12}>
                     <Typography.Text>Are you sure too delete?</Typography.Text>
-                    <Typography.Title level={5}>{perfumeInfo?.perfumer}</Typography.Title>
-                    <Typography.Title level={5}>{perfumeInfo?.perfumeTitle}</Typography.Title>
+                    <Typography.Title level={5}>{productInfo?.productr}</Typography.Title>
+                    <Typography.Title level={5}>{productInfo?.productTitle}</Typography.Title>
                 </Col>
             </Row>
         </Modal>

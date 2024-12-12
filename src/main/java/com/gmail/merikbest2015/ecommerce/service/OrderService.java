@@ -20,7 +20,7 @@ public interface OrderService {
 
     Page<Order> getUserOrders(String email, Pageable pageable);
 
-    Order postOrder(Order validOrder, Map<Long, Long> perfumesId);
+    Order postOrder(Order validOrder, Map<Long, Long> productsId);
 
     String deleteOrder(Long orderId);
 

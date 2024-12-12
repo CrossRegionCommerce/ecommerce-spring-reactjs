@@ -8,7 +8,7 @@ export const mockOrderRequest: OrderRequest = {
     postIndex: "1234567890",
     phoneNumber: "1234567890",
     email: "test123@test.com",
-    perfumesId: [33, 34],
+    productsId: [33, 34],
     totalPrice: 840
 };
 
@@ -30,12 +30,12 @@ export const mockOrderItems: Array<OrderItemResponse> = [
         id: 1,
         amount: 384,
         quantity: 2,
-        perfume: {
+        product: {
             id: 33,
-            perfumeTitle: "Chanel N5",
-            perfumer: "Chanel",
+            productTitle: "Chanel N5",
+            productr: "Chanel",
             price: 192,
-            perfumeRating: 0,
+            productRating: 0,
             filename: "4b51181b-5551-4321-b5e7-f7612584c9b2.Chanel N5.jpg",
             reviewsCount: 0,
             volume: "200"
@@ -45,12 +45,12 @@ export const mockOrderItems: Array<OrderItemResponse> = [
         id: 2,
         amount: 456,
         quantity: 3,
-        perfume: {
+        product: {
             id: 34,
-            perfumeTitle: "Aventus",
-            perfumer: "Creed",
+            productTitle: "Aventus",
+            productr: "Creed",
             price: 152,
-            perfumeRating: 0,
+            productRating: 0,
             filename: "bdb203a9-0725-4ed4-a71a-db7eeb915fae.Creed Aventus.jpg",
             reviewsCount: 0,
             volume: "100"

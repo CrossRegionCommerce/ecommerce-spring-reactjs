@@ -8,11 +8,11 @@ import {
     waitForComponentToRender
 } from "../../../../utils/test/testHelper";
 import { LoadingStatus } from "../../../../types/types";
-import AddPerfume from "../AddPerfume";
+import AddProduct from "../AddProduct";
 
 window.scrollTo = jest.fn();
 
-describe("AddPerfume", () => {
+describe("AddProduct", () => {
     const mockRootStore = createMockRootState(LoadingStatus.SUCCESS);
     let mockDispatchFn: jest.Mock;
 
@@ -21,25 +21,25 @@ describe("AddPerfume", () => {
     });
 
     it("should render correctly", () => {
-        mountWithStore(<AddPerfume />);
+        mountWithStore(<AddProduct />);
         expect(mockDispatchFn).nthCalledWith(1, { payload: LoadingStatus.LOADED, type: "admin/setAdminLoadingState" });
     });
 
     it("should click onFormSubmit", async () => {
-        const wrapper = mountWithStore(<AddPerfume />, mockRootStore);
+        const wrapper = mountWithStore(<AddProduct />, mockRootStore);
         wrapper.find(Button).at(0).simulate("submit");
         await waitForComponentToRender(wrapper);
         expect(mockDispatchFn).nthCalledWith(2, expect.any(Function));
     });
 
-    it("should perfume added success", () => {
-        const mockStore = {...mockRootStore, admin: {...mockRootStore.admin, isPerfumeAdded: true}};
-        mountWithStore(<AddPerfume />, mockStore);
+    it("should product added success", () => {
+        const mockStore = {...mockRootStore, admin: {...mockRootStore.admin, isProductAdded: true}};
+        mountWithStore(<AddProduct />, mockStore);
         expect(mockDispatchFn).nthCalledWith(2, { payload: LoadingStatus.SUCCESS, type: "admin/resetAdminState" });
     });
 
-    it("should unmount AddPerfume", () => {
-        const wrapper = mountWithStore(<AddPerfume />);
+    it("should unmount AddProduct", () => {
+        const wrapper = mountWithStore(<AddProduct />);
         wrapper.unmount();
         expect(mockDispatchFn).nthCalledWith(2, { payload: LoadingStatus.LOADING, type: "admin/resetAdminState" });
     });

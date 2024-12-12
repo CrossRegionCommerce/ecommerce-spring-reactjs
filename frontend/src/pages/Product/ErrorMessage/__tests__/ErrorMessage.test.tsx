@@ -5,7 +5,7 @@ import ErrorMessage from "../ErrorMessage";
 
 describe("ErrorMessage", () => {
     it("should render correctly", () => {
-        const wrapper = mountWithStore(<ErrorMessage errorMessage={"Perfume not found."} />);
-        expect(wrapper.text().includes("Perfume not found.")).toBe(true);
+        const wrapper = mountWithStore(<ErrorMessage errorMessage={"Product not found."} />);
+        expect(wrapper.text().includes("Product not found.")).toBe(true);
     });
 });

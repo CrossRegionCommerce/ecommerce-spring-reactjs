@@ -28,8 +28,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(SpringRunner.class)
 @AutoConfigureMockMvc
 @TestPropertySource("/application-test.properties")
-@Sql(value = {"/sql/create-perfumes-before.sql"}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
-@Sql(value = {"/sql/create-perfumes-after.sql"}, executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
+@Sql(value = {"/sql/create-products-before.sql"}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
+@Sql(value = {"/sql/create-products-after.sql"}, executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
 public class ReviewControllerTest {
 
     @Autowired
@@ -39,7 +39,7 @@ public class ReviewControllerTest {
     private ObjectMapper mapper;
 
     @Test
-    public void getReviewsByPerfumeId() throws Exception {
+    public void getReviewsByProductId() throws Exception {
         mockMvc.perform(get(API_V1_REVIEW + PERFUME_ID, 2)
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
@@ -52,9 +52,9 @@ public class ReviewControllerTest {
     }
 
     @Test
-    public void addReviewToPerfume() throws Exception {
+    public void addReviewToProduct() throws Exception {
         ReviewRequest reviewRequest = new ReviewRequest();
-        reviewRequest.setPerfumeId(1L);
+        reviewRequest.setProductId(1L);
         reviewRequest.setAuthor(FIRST_NAME);
         reviewRequest.setMessage("Hello world");
         reviewRequest.setRating(5);
@@ -70,9 +70,9 @@ public class ReviewControllerTest {
     }
 
     @Test
-    public void addReviewToPerfume_ShouldNotFound() throws Exception {
+    public void addReviewToProduct_ShouldNotFound() throws Exception {
         ReviewRequest reviewRequest = new ReviewRequest();
-        reviewRequest.setPerfumeId(111L);
+        reviewRequest.setProductId(111L);
         reviewRequest.setAuthor(FIRST_NAME);
         reviewRequest.setMessage("Hello world");
         reviewRequest.setRating(5);
@@ -85,7 +85,7 @@ public class ReviewControllerTest {
     }
 
     @Test
-    public void addReviewToPerfume_ShouldInputFieldsAreEmpty() throws Exception {
+    public void addReviewToProduct_ShouldInputFieldsAreEmpty() throws Exception {
         ReviewRequest reviewRequest = new ReviewRequest();
 
         mockMvc.perform(post(API_V1_REVIEW)

@@ -5,7 +5,7 @@ export const WEBSOCKET_URL = BASE_URL + "/websocket";
 export const USER = "/user";
 export const REGISTRATION = "/registration";
 export const CART = "/cart";
-export const PERFUMES = "/perfumes";
+export const PERFUMES = "/products";
 
 // admin
 export const ADMIN_ADD = "/admin/add";
@@ -39,10 +39,10 @@ export const USERS = "/users";
 export const USERS_CART = "/users/cart";
 export const USERS_GRAPHQL = "/users/graphql";
 
-// perfumes
-export const PERFUMES_IDS = "/perfumes/ids";
-export const PERFUMES_SEARCH = "/perfumes/search";
-export const PERFUMES_SEARCH_TEXT = "/perfumes/search/text";
-export const PERFUMES_GRAPHQL_PERFUME = "/perfumes/graphql/perfume";
-export const PERFUMES_GRAPHQL_PERFUMES = "/perfumes/graphql/perfumes";
-export const PERFUMES_GRAPHQL_IDS = "/perfumes/graphql/ids";
+// products
+export const PERFUMES_IDS = "/products/ids";
+export const PERFUMES_SEARCH = "/products/search";
+export const PERFUMES_SEARCH_TEXT = "/products/search/text";
+export const PERFUMES_GRAPHQL_PERFUME = "/products/graphql/product";
+export const PERFUMES_GRAPHQL_PERFUMES = "/products/graphql/products";
+export const PERFUMES_GRAPHQL_IDS = "/products/graphql/ids";

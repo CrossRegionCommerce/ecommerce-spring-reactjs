@@ -2,7 +2,7 @@ package com.gmail.merikbest2015.ecommerce.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gmail.merikbest2015.ecommerce.dto.GraphQLRequest;
-import com.gmail.merikbest2015.ecommerce.dto.perfume.PerfumeRequest;
+import com.gmail.merikbest2015.ecommerce.dto.product.ProductRequest;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.jupiter.api.DisplayName;
@@ -36,9 +36,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 @WithUserDetails(ADMIN_EMAIL)
 @TestPropertySource("/application-test.properties")
-@Sql(value = {"/sql/create-user-before.sql", "/sql/create-perfumes-before.sql", "/sql/create-orders-before.sql"},
+@Sql(value = {"/sql/create-user-before.sql", "/sql/create-products-before.sql", "/sql/create-orders-before.sql"},
         executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
-@Sql(value = {"/sql/create-orders-after.sql", "/sql/create-perfumes-after.sql", "/sql/create-user-after.sql"},
+@Sql(value = {"/sql/create-orders-after.sql", "/sql/create-products-after.sql", "/sql/create-user-after.sql"},
         executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
 public class AdminControllerTest {
 
@@ -52,31 +52,31 @@ public class AdminControllerTest {
     private WebApplicationContext webApplicationContext;
 
     private GraphQLRequest graphQLRequest;
-    private PerfumeRequest perfumeRequest;
+    private ProductRequest productRequest;
 
     @Before
     public void init() {
         graphQLRequest = new GraphQLRequest();
-        perfumeRequest = new PerfumeRequest();
-        perfumeRequest.setPerfumer(PERFUMER_CHANEL);
-        perfumeRequest.setPerfumeTitle(PERFUME_TITLE);
-        perfumeRequest.setYear(YEAR);
-        perfumeRequest.setCountry(COUNTRY);
-        perfumeRequest.setPerfumeGender(PERFUME_GENDER);
-        perfumeRequest.setFragranceTopNotes(FRAGRANCE_TOP_NOTES);
-        perfumeRequest.setFragranceMiddleNotes(FRAGRANCE_MIDDLE_NOTES);
-        perfumeRequest.setFragranceBaseNotes(FRAGRANCE_BASE_NOTES);
-        perfumeRequest.setPrice(PRICE);
-        perfumeRequest.setVolume(VOLUME);
-        perfumeRequest.setType(TYPE);
+        productRequest = new ProductRequest();
+        productRequest.setProductr(PERFUMER_CHANEL);
+        productRequest.setProductTitle(PERFUME_TITLE);
+        productRequest.setYear(YEAR);
+        productRequest.setCountry(COUNTRY);
+        productRequest.setProductGender(PERFUME_GENDER);
+        productRequest.setFragranceTopNotes(FRAGRANCE_TOP_NOTES);
+        productRequest.setFragranceMiddleNotes(FRAGRANCE_MIDDLE_NOTES);
+        productRequest.setFragranceBaseNotes(FRAGRANCE_BASE_NOTES);
+        productRequest.setPrice(PRICE);
+        productRequest.setVolume(VOLUME);
+        productRequest.setType(TYPE);
     }
 
     @Test
-    @DisplayName("[200] POST /api/v1/admin/add - Add Perfume")
-    public void addPerfume() throws Exception {
+    @DisplayName("[200] POST /api/v1/admin/add - Add Product")
+    public void addProduct() throws Exception {
         FileInputStream inputFile = new FileInputStream(new File(FILE_PATH));
         MockMultipartFile multipartFile = new MockMultipartFile("file", FILE_NAME, MediaType.MULTIPART_FORM_DATA_VALUE, inputFile);
-        MockMultipartFile jsonFile = new MockMultipartFile("perfume", "", MediaType.APPLICATION_JSON_VALUE, mapper.writeValueAsString(perfumeRequest).getBytes());
+        MockMultipartFile jsonFile = new MockMultipartFile("product", "", MediaType.APPLICATION_JSON_VALUE, mapper.writeValueAsString(productRequest).getBytes());
         MockMvc mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
 
         mockMvc.perform(multipart(API_V1_ADMIN + ADD)
@@ -86,21 +86,21 @@ public class AdminControllerTest {
     }
 
     @Test
-    @DisplayName("[400] POST /api/v1/admin/add - Should Input Fields Are Empty Add Perfume")
-    public void addPerfume_ShouldInputFieldsAreEmpty() throws Exception {
-        PerfumeRequest perfumeRequest = new PerfumeRequest();
-        MockMultipartFile jsonFile = new MockMultipartFile("perfume", "", MediaType.APPLICATION_JSON_VALUE, mapper.writeValueAsString(perfumeRequest).getBytes());
+    @DisplayName("[400] POST /api/v1/admin/add - Should Input Fields Are Empty Add Product")
+    public void addProduct_ShouldInputFieldsAreEmpty() throws Exception {
+        ProductRequest productRequest = new ProductRequest();
+        MockMultipartFile jsonFile = new MockMultipartFile("product", "", MediaType.APPLICATION_JSON_VALUE, mapper.writeValueAsString(productRequest).getBytes());
         MockMvc mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
 
         mockMvc.perform(multipart(API_V1_ADMIN + ADD)
                         .file(jsonFile)
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.perfumeTitleError", is(FILL_IN_THE_INPUT_FIELD)))
-                .andExpect(jsonPath("$.perfumerError", is(FILL_IN_THE_INPUT_FIELD)))
+                .andExpect(jsonPath("$.productTitleError", is(FILL_IN_THE_INPUT_FIELD)))
+                .andExpect(jsonPath("$.productrError", is(FILL_IN_THE_INPUT_FIELD)))
                 .andExpect(jsonPath("$.yearError", is(FILL_IN_THE_INPUT_FIELD)))
                 .andExpect(jsonPath("$.countryError", is(FILL_IN_THE_INPUT_FIELD)))
-                .andExpect(jsonPath("$.perfumeGenderError", is(FILL_IN_THE_INPUT_FIELD)))
+                .andExpect(jsonPath("$.productGenderError", is(FILL_IN_THE_INPUT_FIELD)))
                 .andExpect(jsonPath("$.fragranceTopNotesError", is(FILL_IN_THE_INPUT_FIELD)))
                 .andExpect(jsonPath("$.fragranceMiddleNotesError", is(FILL_IN_THE_INPUT_FIELD)))
                 .andExpect(jsonPath("$.fragranceBaseNotesError", is(FILL_IN_THE_INPUT_FIELD)))
@@ -110,13 +110,13 @@ public class AdminControllerTest {
     }
 
     @Test
-    @DisplayName("[200] POST /api/v1/admin/edit - Edit Perfume")
-    public void editPerfume() throws Exception {
+    @DisplayName("[200] POST /api/v1/admin/edit - Edit Product")
+    public void editProduct() throws Exception {
         FileInputStream inputFile = new FileInputStream(new File(FILE_PATH));
         MockMultipartFile multipartFile = new MockMultipartFile("file", FILE_NAME, MediaType.MULTIPART_FORM_DATA_VALUE, inputFile);
-        MockMultipartFile jsonFileEdit = new MockMultipartFile("perfume", "", MediaType.APPLICATION_JSON_VALUE, mapper.writeValueAsString(perfumeRequest).getBytes());
+        MockMultipartFile jsonFileEdit = new MockMultipartFile("product", "", MediaType.APPLICATION_JSON_VALUE, mapper.writeValueAsString(productRequest).getBytes());
         MockMvc mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
-        perfumeRequest.setType("test");
+        productRequest.setType("test");
         mockMvc.perform(multipart(API_V1_ADMIN + EDIT)
                         .file(multipartFile)
                         .file(jsonFileEdit))
@@ -124,21 +124,21 @@ public class AdminControllerTest {
     }
 
     @Test
-    @DisplayName("[400] POST /api/v1/admin/edit - Should Input Fields Are Empty Edit Perfume")
-    public void editPerfume_ShouldInputFieldsAreEmpty() throws Exception {
-        PerfumeRequest perfumeRequest = new PerfumeRequest();
-        MockMultipartFile jsonFile = new MockMultipartFile("perfume", "", MediaType.APPLICATION_JSON_VALUE, mapper.writeValueAsString(perfumeRequest).getBytes());
+    @DisplayName("[400] POST /api/v1/admin/edit - Should Input Fields Are Empty Edit Product")
+    public void editProduct_ShouldInputFieldsAreEmpty() throws Exception {
+        ProductRequest productRequest = new ProductRequest();
+        MockMultipartFile jsonFile = new MockMultipartFile("product", "", MediaType.APPLICATION_JSON_VALUE, mapper.writeValueAsString(productRequest).getBytes());
         MockMvc mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
 
         mockMvc.perform(multipart(API_V1_ADMIN + EDIT)
                         .file(jsonFile)
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.perfumeTitleError", is(FILL_IN_THE_INPUT_FIELD)))
-                .andExpect(jsonPath("$.perfumerError", is(FILL_IN_THE_INPUT_FIELD)))
+                .andExpect(jsonPath("$.productTitleError", is(FILL_IN_THE_INPUT_FIELD)))
+                .andExpect(jsonPath("$.productrError", is(FILL_IN_THE_INPUT_FIELD)))
                 .andExpect(jsonPath("$.yearError", is(FILL_IN_THE_INPUT_FIELD)))
                 .andExpect(jsonPath("$.countryError", is(FILL_IN_THE_INPUT_FIELD)))
-                .andExpect(jsonPath("$.perfumeGenderError", is(FILL_IN_THE_INPUT_FIELD)))
+                .andExpect(jsonPath("$.productGenderError", is(FILL_IN_THE_INPUT_FIELD)))
                 .andExpect(jsonPath("$.fragranceTopNotesError", is(FILL_IN_THE_INPUT_FIELD)))
                 .andExpect(jsonPath("$.fragranceMiddleNotesError", is(FILL_IN_THE_INPUT_FIELD)))
                 .andExpect(jsonPath("$.fragranceBaseNotesError", is(FILL_IN_THE_INPUT_FIELD)))
@@ -148,17 +148,17 @@ public class AdminControllerTest {
     }
 
     @Test
-    @DisplayName("[200] DELETE /api/v1/admin/delete/46 - Delete Perfume")
-    public void deletePerfume() throws Exception {
+    @DisplayName("[200] DELETE /api/v1/admin/delete/46 - Delete Product")
+    public void deleteProduct() throws Exception {
         mockMvc.perform(delete(API_V1_ADMIN + DELETE_BY_PERFUME_ID, 46)
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$", is("Perfume deleted successfully")));
+                .andExpect(jsonPath("$", is("Product deleted successfully")));
     }
 
     @Test
-    @DisplayName("[404] DELETE /api/v1/admin/delete/99 - Delete Perfume Should Not Found")
-    public void deletePerfume_ShouldNotFound() throws Exception {
+    @DisplayName("[404] DELETE /api/v1/admin/delete/99 - Delete Product Should Not Found")
+    public void deleteProduct_ShouldNotFound() throws Exception {
         mockMvc.perform(delete(API_V1_ADMIN + DELETE_BY_PERFUME_ID, 99)
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isNotFound())
@@ -314,7 +314,7 @@ public class AdminControllerTest {
                 .andExpect(jsonPath("$.data.orders[*].email").isNotEmpty())
                 .andExpect(jsonPath("$.data.orders[*].phoneNumber").isNotEmpty())
                 .andExpect(jsonPath("$.data.orders[*].postIndex").isNotEmpty())
-                .andExpect(jsonPath("$.data.orders[*].orderItems[*].perfume").isNotEmpty());
+                .andExpect(jsonPath("$.data.orders[*].orderItems[*].product").isNotEmpty());
     }
 
     @Test
@@ -336,6 +336,6 @@ public class AdminControllerTest {
                 .andExpect(jsonPath("$.data.ordersByEmail[*].email").isNotEmpty())
                 .andExpect(jsonPath("$.data.ordersByEmail[*].phoneNumber").isNotEmpty())
                 .andExpect(jsonPath("$.data.ordersByEmail[*].postIndex").isNotEmpty())
-                .andExpect(jsonPath("$.data.ordersByEmail[*].orderItems[*].perfume").isNotEmpty());
+                .andExpect(jsonPath("$.data.ordersByEmail[*].orderItems[*].product").isNotEmpty());
     }
 }

@@ -1,7 +1,7 @@
 package com.gmail.merikbest2015.ecommerce.service.graphql;
 
 import com.gmail.merikbest2015.ecommerce.service.OrderService;
-import com.gmail.merikbest2015.ecommerce.service.PerfumeService;
+import com.gmail.merikbest2015.ecommerce.service.ProductService;
 import com.gmail.merikbest2015.ecommerce.service.UserService;
 import graphql.GraphQL;
 import graphql.schema.GraphQLSchema;
@@ -23,7 +23,7 @@ import java.io.IOException;
 @RequiredArgsConstructor
 public class GraphQLProvider {
 
-    private final PerfumeService perfumeService;
+    private final ProductService productService;
     private final OrderService orderService;
     private final UserService userService;
 
@@ -45,9 +45,9 @@ public class GraphQLProvider {
     private RuntimeWiring buildRuntimeWiring() {
         return RuntimeWiring.newRuntimeWiring()
                 .type("Query", typeWiring -> typeWiring
-                        .dataFetcher("perfumes", perfumeService.getAllPerfumesByQuery())
-                        .dataFetcher("perfumesIds", perfumeService.getAllPerfumesByIdsQuery())
-                        .dataFetcher("perfume", perfumeService.getPerfumeByQuery())
+                        .dataFetcher("products", productService.getAllProductsByQuery())
+                        .dataFetcher("productsIds", productService.getAllProductsByIdsQuery())
+                        .dataFetcher("product", productService.getProductByQuery())
                         .dataFetcher("orders", orderService.getAllOrdersByQuery())
                         .dataFetcher("ordersByEmail", orderService.getUserOrdersByEmailQuery())
                         .dataFetcher("users", userService.getAllUsersByQuery())

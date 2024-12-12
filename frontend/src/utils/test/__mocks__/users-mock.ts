@@ -60,7 +60,7 @@ export const authErrorsData: AuthErrors = {
 };
 
 export const reviewData: ReviewRequest = {
-    perfumeId: 1,
+    productId: 1,
     author: "John Doe",
     message: "Hello",
     rating: 5
@@ -69,7 +69,7 @@ export const reviewData: ReviewRequest = {
 export const reviewErrorsData: ReviewError = {
     authorError: "Fill in the input field",
     messageError: "Fill in the input field",
-    ratingError: "Chose perfume rating"
+    ratingError: "Chose product rating"
 };
 
 export const userResetPasswordData: UserResetPasswordRequest = {

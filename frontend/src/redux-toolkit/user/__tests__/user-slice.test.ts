@@ -3,7 +3,7 @@ import axios from "axios";
 
 import { LoadingStatus } from "../../../types/types";
 import { API_BASE_URL, AUTH_EDIT_PASSWORD, REVIEW, USERS, USERS_GRAPHQL } from "../../../constants/urlConstants";
-import { mockFullPerfumeResponse } from "../../../utils/test/__mocks__/perfumes-mock";
+import { mockFullProductResponse } from "../../../utils/test/__mocks__/products-mock";
 import { store } from "../../../store";
 import { initialState } from "../user-slice";
 import {
@@ -15,7 +15,7 @@ import {
     userResetPasswordData
 } from "../../../utils/test/__mocks__/users-mock";
 import {
-    addReviewToPerfume,
+    addReviewToProduct,
     fetchUserInfo,
     fetchUserInfoByQuery,
     updateUserInfo,
@@ -87,25 +87,25 @@ describe("user slice tests", () => {
         expect(state.userResetPasswordErrors).toEqual(authErrorsData);
     });
 
-    it("should addReviewToPerfume dispatches fulfilled on success", async () => {
+    it("should addReviewToProduct dispatches fulfilled on success", async () => {
         expect(state.isReviewAdded).toEqual(false);
 
-        mock.onPost(API_BASE_URL + REVIEW).reply(200, mockFullPerfumeResponse);
-        const result = await store.dispatch(addReviewToPerfume(reviewData));
+        mock.onPost(API_BASE_URL + REVIEW).reply(200, mockFullProductResponse);
+        const result = await store.dispatch(addReviewToProduct(reviewData));
 
         state = store.getState().user;
-        expect(result.type).toBe("user/addReviewToPerfume/fulfilled");
+        expect(result.type).toBe("user/addReviewToProduct/fulfilled");
         expect(state.isReviewAdded).toEqual(true);
     });
 
-    it("should addReviewToPerfume dispatches rejected on failure", async () => {
+    it("should addReviewToProduct dispatches rejected on failure", async () => {
         expect(state.reviewErrors).toEqual({});
 
         mock.onPost(API_BASE_URL + REVIEW).reply(400, reviewErrorsData);
-        const result = await store.dispatch(addReviewToPerfume(reviewData));
+        const result = await store.dispatch(addReviewToProduct(reviewData));
 
         state = store.getState().user;
-        expect(result.type).toBe("user/addReviewToPerfume/rejected");
+        expect(result.type).toBe("user/addReviewToProduct/rejected");
         expect(state.reviewErrors).toEqual(reviewErrorsData);
     });
 

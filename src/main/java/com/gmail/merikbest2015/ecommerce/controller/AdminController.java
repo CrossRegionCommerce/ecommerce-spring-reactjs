@@ -3,12 +3,12 @@ package com.gmail.merikbest2015.ecommerce.controller;
 import com.gmail.merikbest2015.ecommerce.dto.GraphQLRequest;
 import com.gmail.merikbest2015.ecommerce.dto.HeaderResponse;
 import com.gmail.merikbest2015.ecommerce.dto.order.OrderResponse;
-import com.gmail.merikbest2015.ecommerce.dto.perfume.PerfumeRequest;
-import com.gmail.merikbest2015.ecommerce.dto.perfume.FullPerfumeResponse;
+import com.gmail.merikbest2015.ecommerce.dto.product.ProductRequest;
+import com.gmail.merikbest2015.ecommerce.dto.product.FullProductResponse;
 import com.gmail.merikbest2015.ecommerce.dto.user.BaseUserResponse;
 import com.gmail.merikbest2015.ecommerce.dto.user.UserResponse;
 import com.gmail.merikbest2015.ecommerce.mapper.OrderMapper;
-import com.gmail.merikbest2015.ecommerce.mapper.PerfumeMapper;
+import com.gmail.merikbest2015.ecommerce.mapper.ProductMapper;
 import com.gmail.merikbest2015.ecommerce.mapper.UserMapper;
 import com.gmail.merikbest2015.ecommerce.service.graphql.GraphQLProvider;
 import graphql.ExecutionResult;
@@ -34,27 +34,27 @@ import static com.gmail.merikbest2015.ecommerce.constants.PathConstants.*;
 public class AdminController {
 
     private final UserMapper userMapper;
-    private final PerfumeMapper perfumeMapper;
+    private final ProductMapper productMapper;
     private final OrderMapper orderMapper;
     private final GraphQLProvider graphQLProvider;
 
     @PostMapping(ADD)
-    public ResponseEntity<FullPerfumeResponse> addPerfume(@RequestPart(name = "file", required = false) MultipartFile file,
-                                                          @RequestPart("perfume") @Valid PerfumeRequest perfume,
+    public ResponseEntity<FullProductResponse> addProduct(@RequestPart(name = "file", required = false) MultipartFile file,
+                                                          @RequestPart("product") @Valid ProductRequest product,
                                                           BindingResult bindingResult) {
-        return ResponseEntity.ok(perfumeMapper.savePerfume(perfume, file, bindingResult));
+        return ResponseEntity.ok(productMapper.saveProduct(product, file, bindingResult));
     }
 
     @PostMapping(EDIT)
-    public ResponseEntity<FullPerfumeResponse> updatePerfume(@RequestPart(name = "file", required = false) MultipartFile file,
-                                                             @RequestPart("perfume") @Valid PerfumeRequest perfume,
+    public ResponseEntity<FullProductResponse> updateProduct(@RequestPart(name = "file", required = false) MultipartFile file,
+                                                             @RequestPart("product") @Valid ProductRequest product,
                                                              BindingResult bindingResult) {
-        return ResponseEntity.ok(perfumeMapper.savePerfume(perfume, file, bindingResult));
+        return ResponseEntity.ok(productMapper.saveProduct(product, file, bindingResult));
     }
 
     @DeleteMapping(DELETE_BY_PERFUME_ID)
-    public ResponseEntity<String> deletePerfume(@PathVariable Long perfumeId) {
-        return ResponseEntity.ok(perfumeMapper.deletePerfume(perfumeId));
+    public ResponseEntity<String> deleteProduct(@PathVariable Long productId) {
+        return ResponseEntity.ok(productMapper.deleteProduct(productId));
     }
 
     @GetMapping(ORDERS)

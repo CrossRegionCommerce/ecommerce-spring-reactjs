@@ -31,9 +31,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(SpringRunner.class)
 @AutoConfigureMockMvc
 @TestPropertySource("/application-test.properties")
-@Sql(value = {"/sql/create-user-before.sql", "/sql/create-perfumes-before.sql", "/sql/create-orders-before.sql"},
+@Sql(value = {"/sql/create-user-before.sql", "/sql/create-products-before.sql", "/sql/create-orders-before.sql"},
         executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
-@Sql(value = {"/sql/create-orders-after.sql", "/sql/create-perfumes-after.sql", "/sql/create-user-after.sql"},
+@Sql(value = {"/sql/create-orders-after.sql", "/sql/create-products-after.sql", "/sql/create-user-after.sql"},
         executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
 public class OrderControllerTest {
 
@@ -99,9 +99,9 @@ public class OrderControllerTest {
 
     @Test
     public void postOrder() throws Exception {
-        Map<Long, Long> perfumesId = new HashMap<>();
-        perfumesId.put(2L, 1L);
-        perfumesId.put(4L, 1L);
+        Map<Long, Long> productsId = new HashMap<>();
+        productsId.put(2L, 1L);
+        productsId.put(4L, 1L);
 
         OrderRequest orderRequest = new OrderRequest();
         orderRequest.setFirstName(FIRST_NAME);
@@ -112,7 +112,7 @@ public class OrderControllerTest {
         orderRequest.setPostIndex(POST_INDEX);
         orderRequest.setPhoneNumber(PHONE_NUMBER);
         orderRequest.setTotalPrice(TOTAL_PRICE);
-        orderRequest.setPerfumesId(perfumesId);
+        orderRequest.setProductsId(productsId);
 
         mockMvc.perform(post(API_V1_ORDER)
                         .content(mapper.writeValueAsString(orderRequest))

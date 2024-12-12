@@ -2,18 +2,18 @@ package com.gmail.merikbest2015.ecommerce.repository.projection;
 
 import org.springframework.beans.factory.annotation.Value;
 
-public interface PerfumeProjection {
+public interface ProductProjection {
     Long getId();
-    String getPerfumeTitle();
-    String getPerfumer();
+    String getProductTitle();
+    String getProductr();
     Integer getPrice();
     String getFilename();
-    Double getPerfumeRating();
+    Double getProductRating();
     
     @Value("#{target.reviews.size()}")
     Integer getReviewsCount();
 
-    void setPerfumer(String perfumer);
-    void setPerfumeGender(String perfumeGender);
+    void setProductr(String productr);
+    void setProductGender(String productGender);
     void setPrice(Integer price);
 }

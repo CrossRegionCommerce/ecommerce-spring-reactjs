@@ -8,12 +8,12 @@ import {
     waitForComponentToRender
 } from "../../../../utils/test/testHelper";
 import { LoadingStatus } from "../../../../types/types";
-import { mockFullPerfumeResponse } from "../../../../utils/test/__mocks__/perfumes-mock";
-import EditPerfume from "../EditPerfume";
+import { mockFullProductResponse } from "../../../../utils/test/__mocks__/products-mock";
+import EditProduct from "../EditProduct";
 
 window.scrollTo = jest.fn();
 
-describe("EditPerfume", () => {
+describe("EditProduct", () => {
     const mockRootStore = createMockRootState(LoadingStatus.SUCCESS);
     let mockDispatchFn: jest.Mock;
 
@@ -22,30 +22,30 @@ describe("EditPerfume", () => {
     });
 
     it("should render correctly", () => {
-        mountWithStore(<EditPerfume />);
+        mountWithStore(<EditProduct />);
         expect(mockDispatchFn).nthCalledWith(1, { payload: LoadingStatus.LOADED, type: "admin/setAdminLoadingState" });
         expect(mockDispatchFn).nthCalledWith(2, expect.any(Function));
     });
 
-    it("should perfume edited success", () => {
+    it("should product edited success", () => {
         const mockStore = {
             ...mockRootStore,
-            admin: { ...mockRootStore.admin, isPerfumeEdited: true },
-            perfume: { ...mockRootStore.perfume, perfume: mockFullPerfumeResponse }
+            admin: { ...mockRootStore.admin, isProductEdited: true },
+            product: { ...mockRootStore.product, product: mockFullProductResponse }
         };
-        mountWithStore(<EditPerfume />, mockStore);
+        mountWithStore(<EditProduct />, mockStore);
         expect(mockDispatchFn).nthCalledWith(3, { payload: LoadingStatus.SUCCESS, type: "admin/resetAdminState" });
     });
 
     it("should click onFormSubmit", async () => {
-        const wrapper = mountWithStore(<EditPerfume />);
+        const wrapper = mountWithStore(<EditProduct />);
         wrapper.find(Button).at(0).simulate("submit");
         await waitForComponentToRender(wrapper);
         expect(mockDispatchFn).nthCalledWith(3, expect.any(Function));
     });
 
-    it("should unmount EditPerfume", () => {
-        const wrapper = mountWithStore(<EditPerfume />);
+    it("should unmount EditProduct", () => {
+        const wrapper = mountWithStore(<EditProduct />);
         wrapper.unmount();
         expect(mockDispatchFn).nthCalledWith(3, { payload: LoadingStatus.LOADING, type: "admin/resetAdminState" });
     });

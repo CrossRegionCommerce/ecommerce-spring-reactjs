@@ -18,15 +18,15 @@ public class ReviewMapper {
     private final CommonMapper commonMapper;
     private final ReviewService reviewService;
 
-    public List<ReviewResponse> getReviewsByPerfumeId(Long perfumeId) {
-        return commonMapper.convertToResponseList(reviewService.getReviewsByPerfumeId(perfumeId), ReviewResponse.class);
+    public List<ReviewResponse> getReviewsByProductId(Long productId) {
+        return commonMapper.convertToResponseList(reviewService.getReviewsByProductId(productId), ReviewResponse.class);
     }
 
-    public ReviewResponse addReviewToPerfume(ReviewRequest reviewRequest, Long perfumeId, BindingResult bindingResult) {
+    public ReviewResponse addReviewToProduct(ReviewRequest reviewRequest, Long productId, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             throw new InputFieldException(bindingResult);
         }
         Review review = commonMapper.convertToEntity(reviewRequest, Review.class);
-        return commonMapper.convertToResponse(reviewService.addReviewToPerfume(review, perfumeId), ReviewResponse.class);
+        return commonMapper.convertToResponse(reviewService.addReviewToProduct(review, productId), ReviewResponse.class);
     }
 }

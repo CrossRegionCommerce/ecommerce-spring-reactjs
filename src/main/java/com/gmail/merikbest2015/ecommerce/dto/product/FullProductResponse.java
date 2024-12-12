@@ -1,4 +1,4 @@
-package com.gmail.merikbest2015.ecommerce.dto.perfume;
+package com.gmail.merikbest2015.ecommerce.dto.product;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -6,10 +6,10 @@ import org.springframework.web.multipart.MultipartFile;
 
 @Getter
 @Setter
-public class FullPerfumeResponse extends PerfumeResponse {
+public class FullProductResponse extends ProductResponse {
     private Integer year;
     private String country;
-    private String perfumeGender;
+    private String productGender;
     private String fragranceTopNotes;
     private String fragranceMiddleNotes;
     private String fragranceBaseNotes;

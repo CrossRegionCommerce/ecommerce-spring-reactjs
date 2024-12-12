@@ -33,9 +33,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(SpringRunner.class)
 @AutoConfigureMockMvc
 @TestPropertySource("/application-test.properties")
-@Sql(value = {"/sql/create-user-before.sql", "/sql/create-perfumes-before.sql"},
+@Sql(value = {"/sql/create-user-before.sql", "/sql/create-products-before.sql"},
         executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
-@Sql(value = {"/sql/create-user-after.sql", "/sql/create-perfumes-after.sql"},
+@Sql(value = {"/sql/create-user-after.sql", "/sql/create-products-after.sql"},
         executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
 public class UserControllerTest {
 
@@ -108,21 +108,21 @@ public class UserControllerTest {
 
     @Test
     public void getCart() throws Exception {
-        List<Long> perfumesIds = new ArrayList<>();
-        perfumesIds.add(2L);
-        perfumesIds.add(4L);
+        List<Long> productsIds = new ArrayList<>();
+        productsIds.add(2L);
+        productsIds.add(4L);
 
         mockMvc.perform(post(API_V1_USERS + CART)
-                        .content(mapper.writeValueAsString(perfumesIds))
+                        .content(mapper.writeValueAsString(productsIds))
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[*].id").isNotEmpty())
-                .andExpect(jsonPath("$[*].perfumeTitle").isNotEmpty())
-                .andExpect(jsonPath("$[*].perfumer").isNotEmpty())
+                .andExpect(jsonPath("$[*].productTitle").isNotEmpty())
+                .andExpect(jsonPath("$[*].productr").isNotEmpty())
                 .andExpect(jsonPath("$[*].filename").isNotEmpty())
                 .andExpect(jsonPath("$[*].price").isNotEmpty())
                 .andExpect(jsonPath("$[*].volume").isNotEmpty())
-                .andExpect(jsonPath("$[*].perfumeRating").isNotEmpty())
+                .andExpect(jsonPath("$[*].productRating").isNotEmpty())
                 .andExpect(jsonPath("$[*].reviewsCount").isNotEmpty());
     }
 

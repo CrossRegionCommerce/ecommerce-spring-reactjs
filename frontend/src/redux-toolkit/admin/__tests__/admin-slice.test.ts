@@ -13,16 +13,16 @@ import {
 } from "../../../constants/urlConstants";
 import { store } from "../../../store";
 import {
-    addPerfume,
-    deletePerfume,
+    addProduct,
+    deleteProduct,
     fetchAllUsers,
     fetchAllUsersByQuery,
     fetchUserInfo,
     fetchUserInfoByQuery,
-    updatePerfume
+    updateProduct
 } from "../admin-thunks";
 import { LoadingStatus } from "../../../types/types";
-import { mockPerfumesResponse, perfumeErrorData } from "../../../utils/test/__mocks__/perfumes-mock";
+import { mockProductsResponse, productErrorData } from "../../../utils/test/__mocks__/products-mock";
 import { initialState } from "../admin-slice";
 import { userData, mockBaseUsersResponse } from "../../../utils/test/__mocks__/users-mock";
 
@@ -34,81 +34,81 @@ describe("admin slice tests", () => {
     beforeEach(() => {
         state = initialState;
         mockFormData.append("file", "file");
-        mockFormData.append("perfume", new Blob([JSON.stringify(mockPerfumesResponse)], { type: "application/json" }));
+        mockFormData.append("product", new Blob([JSON.stringify(mockProductsResponse)], { type: "application/json" }));
     });
 
-    it("should addPerfume dispatches pending and fulfilled on success", async () => {
+    it("should addProduct dispatches pending and fulfilled on success", async () => {
         expect(state.loadingState).toEqual(LoadingStatus.LOADING);
-        expect(state.isPerfumeAdded).toEqual(false);
+        expect(state.isProductAdded).toEqual(false);
 
         mock.onPost(API_BASE_URL + ADMIN_ADD).reply(200);
-        const result = await store.dispatch(addPerfume(mockFormData));
+        const result = await store.dispatch(addProduct(mockFormData));
 
         state = store.getState().admin;
-        expect(result.type).toBe("admin/addPerfume/fulfilled");
+        expect(result.type).toBe("admin/addProduct/fulfilled");
         expect(state.loadingState).toEqual(LoadingStatus.LOADED);
-        expect(state.isPerfumeAdded).toEqual(true);
+        expect(state.isProductAdded).toEqual(true);
     });
 
-    it("should addPerfume dispatches rejected on failure", async () => {
+    it("should addProduct dispatches rejected on failure", async () => {
         expect(state.loadingState).toEqual(LoadingStatus.LOADING);
-        expect(state.isPerfumeAdded).toEqual(false);
+        expect(state.isProductAdded).toEqual(false);
         expect(state.errors).toEqual({});
 
-        mock.onPost(API_BASE_URL + ADMIN_ADD).reply(400, perfumeErrorData);
-        const result = await store.dispatch(addPerfume(mockFormData));
+        mock.onPost(API_BASE_URL + ADMIN_ADD).reply(400, productErrorData);
+        const result = await store.dispatch(addProduct(mockFormData));
 
         state = store.getState().admin;
-        expect(result.type).toBe("admin/addPerfume/rejected");
+        expect(result.type).toBe("admin/addProduct/rejected");
         expect(state.loadingState).toEqual(LoadingStatus.LOADED);
-        expect(state.isPerfumeAdded).toEqual(false);
-        expect(state.errors).toEqual(perfumeErrorData);
+        expect(state.isProductAdded).toEqual(false);
+        expect(state.errors).toEqual(productErrorData);
     });
 
-    it("should updatePerfume dispatches pending and fulfilled on success", async () => {
+    it("should updateProduct dispatches pending and fulfilled on success", async () => {
         expect(state.loadingState).toEqual(LoadingStatus.LOADING);
-        expect(state.isPerfumeEdited).toEqual(false);
-        expect(store.getState().perfume.perfume).toEqual({});
+        expect(state.isProductEdited).toEqual(false);
+        expect(store.getState().product.product).toEqual({});
 
-        mock.onPost(API_BASE_URL + ADMIN_EDIT).reply(200, mockPerfumesResponse);
-        const result = await store.dispatch(updatePerfume(mockFormData));
+        mock.onPost(API_BASE_URL + ADMIN_EDIT).reply(200, mockProductsResponse);
+        const result = await store.dispatch(updateProduct(mockFormData));
 
         state = store.getState().admin;
-        expect(result.type).toBe("admin/updatePerfume/fulfilled");
+        expect(result.type).toBe("admin/updateProduct/fulfilled");
         expect(state.loadingState).toEqual(LoadingStatus.LOADED);
-        expect(state.isPerfumeEdited).toEqual(true);
-        expect(store.getState().perfume.perfume).toEqual(mockPerfumesResponse);
+        expect(state.isProductEdited).toEqual(true);
+        expect(store.getState().product.product).toEqual(mockProductsResponse);
     });
 
-    it("should updatePerfume dispatches pending and fulfilled on failure", async () => {
+    it("should updateProduct dispatches pending and fulfilled on failure", async () => {
         expect(state.loadingState).toEqual(LoadingStatus.LOADING);
-        expect(state.isPerfumeEdited).toEqual(false);
+        expect(state.isProductEdited).toEqual(false);
         expect(state.errors).toEqual({});
 
-        mock.onPost(API_BASE_URL + ADMIN_EDIT).reply(400, perfumeErrorData);
-        const result = await store.dispatch(updatePerfume(mockFormData));
+        mock.onPost(API_BASE_URL + ADMIN_EDIT).reply(400, productErrorData);
+        const result = await store.dispatch(updateProduct(mockFormData));
 
         state = store.getState().admin;
 
-        expect(result.type).toBe("admin/updatePerfume/rejected");
+        expect(result.type).toBe("admin/updateProduct/rejected");
         expect(state.loadingState).toEqual(LoadingStatus.LOADED);
-        expect(state.isPerfumeEdited).toEqual(false);
-        expect(state.errors).toEqual(perfumeErrorData);
+        expect(state.isProductEdited).toEqual(false);
+        expect(state.errors).toEqual(productErrorData);
     });
 
-    it("should deletePerfume dispatches fulfilled on success", async () => {
+    it("should deleteProduct dispatches fulfilled on success", async () => {
         expect(state.loadingState).toEqual(LoadingStatus.LOADING);
-        expect(state.isPerfumeDeleted).toEqual(false);
+        expect(state.isProductDeleted).toEqual(false);
         expect(state.errors).toEqual({});
 
-        mock.onDelete(API_BASE_URL + `${ADMIN_DELETE}/${1}`).reply(200, "Perfume deleted successfully");
-        const result = await store.dispatch(deletePerfume(1));
+        mock.onDelete(API_BASE_URL + `${ADMIN_DELETE}/${1}`).reply(200, "Product deleted successfully");
+        const result = await store.dispatch(deleteProduct(1));
 
         state = store.getState().admin;
 
-        expect(result.type).toBe("admin/deletePerfume/fulfilled");
+        expect(result.type).toBe("admin/deleteProduct/fulfilled");
         expect(state.loadingState).toEqual(LoadingStatus.LOADED);
-        expect(state.isPerfumeDeleted).toEqual(true);
+        expect(state.isProductDeleted).toEqual(true);
         expect(state.errors).toEqual({});
     });
 

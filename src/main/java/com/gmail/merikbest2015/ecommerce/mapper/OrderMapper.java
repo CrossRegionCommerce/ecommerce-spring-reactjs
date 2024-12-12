@@ -49,7 +49,7 @@ public class OrderMapper {
         if (bindingResult.hasErrors()) {
             throw new InputFieldException(bindingResult);
         }
-        Order order = orderService.postOrder(commonMapper.convertToEntity(orderRequest, Order.class), orderRequest.getPerfumesId());
+        Order order = orderService.postOrder(commonMapper.convertToEntity(orderRequest, Order.class), orderRequest.getProductsId());
         return commonMapper.convertToResponse(order, OrderResponse.class);
     }
 }

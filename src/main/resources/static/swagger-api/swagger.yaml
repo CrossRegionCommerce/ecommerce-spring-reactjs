@@ -4,12 +4,12 @@ info:
   title: "ecommerce-spring-reactjs"
 servers:
   - url: "http://localhost:8080"
-  - url: "https://perfume-websore-api.herokuapp.com"
+  - url: "https://product-websore-api.herokuapp.com"
 
 tags:
   - name: "AdminController"
   - name: "AuthenticationController"
-  - name: "PerfumeController"
+  - name: "ProductController"
   - name: "RegistrationController"
   - name: "UserController"
 
@@ -18,8 +18,8 @@ paths:
     post:
       tags:
         - "AdminController"
-      summary: "Add perfume to database"
-      operationId: "addPerfume"
+      summary: "Add product to database"
+      operationId: "addProduct"
       requestBody:
         required: true
         content:
@@ -30,15 +30,15 @@ paths:
                 file:
                   type: string
                   format: binary
-                perfumeTitle:
+                productTitle:
                   type: string
-                perfumer:
+                productr:
                   type: string
                 year:
                   type: string
                 country:
                   type: string
-                perfumeGender:
+                productGender:
                   type: string
                 fragranceTopNotes:
                   type: string
@@ -57,11 +57,11 @@ paths:
                 type:
                   type: string
               required:
-                - perfumeTitle
-                - perfumer
+                - productTitle
+                - productr
                 - year
                 - country
-                - perfumeGender
+                - productGender
                 - fragranceTopNotes
                 - fragranceMiddleNotes
                 - fragranceBaseNotes
@@ -74,19 +74,19 @@ paths:
           content:
             'application/json':
               schema:
-                $ref: "#/components/schemas/FullPerfumeResponse"
+                $ref: "#/components/schemas/FullProductResponse"
               examples:
-                PerfumeResponse:
-                  $ref: "#/components/schemas/FullPerfumeResponse"
+                ProductResponse:
+                  $ref: "#/components/schemas/FullProductResponse"
         "400":
           description: "Bad request"
           content:
             'application/json':
               schema:
-                $ref: "#/components/schemas/PerfumeError"
+                $ref: "#/components/schemas/ProductError"
               examples:
-                PerfumeError:
-                  $ref: "#/components/schemas/PerfumeError"
+                ProductError:
+                  $ref: "#/components/schemas/ProductError"
       security:
         - token: []
 
@@ -94,8 +94,8 @@ paths:
     post:
       tags:
         - "AdminController"
-      summary: "Update perfume"
-      operationId: "updatePerfume"
+      summary: "Update product"
+      operationId: "updateProduct"
       requestBody:
         required: true
         content:
@@ -106,15 +106,15 @@ paths:
                 file:
                   type: string
                   format: binary
-                perfumeTitle:
+                productTitle:
                   type: string
-                perfumer:
+                productr:
                   type: string
                 year:
                   type: string
                 country:
                   type: string
-                perfumeGender:
+                productGender:
                   type: string
                 fragranceTopNotes:
                   type: string
@@ -133,11 +133,11 @@ paths:
                 type:
                   type: string
               required:
-                - perfumeTitle
-                - perfumer
+                - productTitle
+                - productr
                 - year
                 - country
-                - perfumeGender
+                - productGender
                 - fragranceTopNotes
                 - fragranceMiddleNotes
                 - fragranceBaseNotes
@@ -150,19 +150,19 @@ paths:
           content:
             'application/json':
               schema:
-                $ref: "#/components/schemas/FullPerfumeResponse"
+                $ref: "#/components/schemas/FullProductResponse"
               examples:
-                PerfumeResponse:
-                  $ref: "#/components/schemas/FullPerfumeResponse"
+                ProductResponse:
+                  $ref: "#/components/schemas/FullProductResponse"
         "400":
           description: "Bad request"
           content:
             'application/json':
               schema:
-                $ref: "#/components/schemas/PerfumeError"
+                $ref: "#/components/schemas/ProductError"
               examples:
-                PerfumeError:
-                  $ref: "#/components/schemas/PerfumeError"
+                ProductError:
+                  $ref: "#/components/schemas/ProductError"
       security:
         - token: []
 
@@ -170,8 +170,8 @@ paths:
     delete:
       tags:
         - "AdminController"
-      summary: "Delete perfume"
-      operationId: "deletePerfume"
+      summary: "Delete product"
+      operationId: "deleteProduct"
       parameters:
         - name: "id"
           in: "path"
@@ -189,7 +189,7 @@ paths:
                 properties:
                   data:
                     type: string
-                    example: "Perfume deleted successfully"
+                    example: "Product deleted successfully"
         "404":
           description: "Not Found"
           content:
@@ -199,7 +199,7 @@ paths:
                 properties:
                   data:
                     type: string
-                    example: "Perfume not found."
+                    example: "Product not found."
       security:
         - token: []
 
@@ -458,7 +458,7 @@ paths:
               properties:
                 query:
                   type: "string"
-                  example: "{ orders { id totalPrice date firstName lastName city address email phoneNumber postIndex orderItems { id amount quantity perfume { id perfumeTitle perfumer price filename } } } }"
+                  example: "{ orders { id totalPrice date firstName lastName city address email phoneNumber postIndex orderItems { id amount quantity product { id productTitle productr price filename } } } }"
       responses:
         "200":
           description: "OK"
@@ -486,7 +486,7 @@ paths:
               properties:
                 query:
                   type: "string"
-                  example: "{ ordersByEmail(email: test123@test.com) { id totalPrice date firstName lastName city address email phoneNumber postIndex orderItems { id amount quantity perfume { id perfumeTitle perfumer price filename } } } }"
+                  example: "{ ordersByEmail(email: test123@test.com) { id totalPrice date firstName lastName city address email phoneNumber postIndex orderItems { id amount quantity product { id productTitle productr price filename } } } }"
       responses:
         "200":
           description: "OK"
@@ -714,12 +714,12 @@ paths:
       security:
         - token: []
 
-  /api/v1/perfumes:
+  /api/v1/products:
     get:
       tags:
-        - "PerfumeController"
-      summary: "Returns list of perfumes"
-      operationId: "getAllPerfumes"
+        - "ProductController"
+      summary: "Returns list of products"
+      operationId: "getAllProducts"
       parameters: []
       responses:
         "200":
@@ -729,14 +729,14 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: "#/components/schemas/PerfumeResponse"
+                  $ref: "#/components/schemas/ProductResponse"
 
-  /api/v1/perfumes/{id}:
+  /api/v1/products/{id}:
     get:
       tags:
-        - "PerfumeController"
-      summary: "Get perfume by id"
-      operationId: "getPerfume"
+        - "ProductController"
+      summary: "Get product by id"
+      operationId: "getProduct"
       parameters:
         - name: "id"
           in: "path"
@@ -750,14 +750,14 @@ paths:
           content:
             'application/json':
               schema:
-                $ref: "#/components/schemas/FullPerfumeResponse"
+                $ref: "#/components/schemas/FullProductResponse"
                 
-  /api/v1/perfumes/reviews/{id}:
+  /api/v1/products/reviews/{id}:
     get:
       tags:
-        - "PerfumeController"
-      summary: "Get Reviews By Perfume Id"
-      operationId: "getReviewsByPerfumeId"
+        - "ProductController"
+      summary: "Get Reviews By Product Id"
+      operationId: "getReviewsByProductId"
       parameters:
         - name: "id"
           in: "path"
@@ -783,14 +783,14 @@ paths:
                 properties:
                   data:
                     type: string
-                    example: "Perfume not found."
+                    example: "Product not found."
 
-  /api/v1/perfumes/ids:
+  /api/v1/products/ids:
     post:
       tags:
-        - "PerfumeController"
-      summary: "Get perfumes by ids"
-      operationId: "getPerfumesByIds"
+        - "ProductController"
+      summary: "Get products by ids"
+      operationId: "getProductsByIds"
       requestBody:
         content:
           'application/json':
@@ -808,14 +808,14 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: "#/components/schemas/PerfumeResponse"
+                  $ref: "#/components/schemas/ProductResponse"
 
-  /api/v1/perfumes/search:
+  /api/v1/products/search:
     post:
       tags:
-        - "PerfumeController"
-      summary: "Find perfumes by filter parameters"
-      operationId: "findPerfumesByFilterParams"
+        - "ProductController"
+      summary: "Find products by filter parameters"
+      operationId: "findProductsByFilterParams"
       requestBody:
         required: true
         content:
@@ -823,7 +823,7 @@ paths:
             schema:
               type: object
               properties:
-                perfumers:
+                productrs:
                   type: "array"
                   items:
                     type: "string"
@@ -847,14 +847,14 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: "#/components/schemas/PerfumeResponse"
+                  $ref: "#/components/schemas/ProductResponse"
 
-  /api/v1/perfumes/search/gender:
+  /api/v1/products/search/gender:
     post:
       tags:
-        - "PerfumeController"
-      summary: "Find perfumes by gender"
-      operationId: "findByPerfumeGender"
+        - "ProductController"
+      summary: "Find products by gender"
+      operationId: "findByProductGender"
       requestBody:
         required: true
         content:
@@ -875,14 +875,14 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: "#/components/schemas/PerfumeResponse"
+                  $ref: "#/components/schemas/ProductResponse"
 
-  /api/v1/perfumes/search/perfumer:
+  /api/v1/products/search/productr:
     post:
       tags:
-        - "PerfumeController"
-      summary: "Find perfumes by brand"
-      operationId: "findByPerfumer"
+        - "ProductController"
+      summary: "Find products by brand"
+      operationId: "findByProductr"
       requestBody:
         required: true
         content:
@@ -890,7 +890,7 @@ paths:
             schema:
               type: object
               properties:
-                perfumers:
+                productrs:
                   type: "array"
                   items:
                     type: "string"
@@ -903,14 +903,14 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: "#/components/schemas/PerfumeResponse"
+                  $ref: "#/components/schemas/ProductResponse"
 
-  /api/v1/perfumes/graphql/ids:
+  /api/v1/products/graphql/ids:
     post:
       tags:
-        - "PerfumeController"
-      summary: "Get list of perfumes by ids GraphQL query"
-      operationId: "getPerfumesByIdsQuery"
+        - "ProductController"
+      summary: "Get list of products by ids GraphQL query"
+      operationId: "getProductsByIdsQuery"
       requestBody:
         required: true
         content:
@@ -920,7 +920,7 @@ paths:
               properties:
                 query:
                   type: "string"
-                  example: "{ perfumesIds(ids: [16,17,18]) {id perfumeTitle perfumer price filename} }"
+                  example: "{ productsIds(ids: [16,17,18]) {id productTitle productr price filename} }"
 
       responses:
         "200":
@@ -935,9 +935,9 @@ paths:
                     id:
                       type: "integer"
                       format: int64
-                    perfumeTitle:
+                    productTitle:
                       type: "string"
-                    perfumer:
+                    productr:
                       type: "string"
                     price:
                       type: "integer"
@@ -946,17 +946,17 @@ paths:
                       type: "string"
                   example:
                     id: 43
-                    perfumeTitle: "Sauvage"
-                    perfumer: "Dior"
+                    productTitle: "Sauvage"
+                    productr: "Dior"
                     price: 62
                     filename: "empty.jpg"
 
-  /api/v1/perfumes/graphql/perfumes:
+  /api/v1/products/graphql/products:
     post:
       tags:
-        - "PerfumeController"
-      summary: "Get list of perfumes by GraphQL query"
-      operationId: "getAllPerfumesByQuery"
+        - "ProductController"
+      summary: "Get list of products by GraphQL query"
+      operationId: "getAllProductsByQuery"
       requestBody:
         required: true
         content:
@@ -966,7 +966,7 @@ paths:
               properties:
                 query:
                   type: "string"
-                  example: "{ perfumes {id perfumeTitle perfumer price filename} }"
+                  example: "{ products {id productTitle productr price filename} }"
 
       responses:
         "200":
@@ -981,9 +981,9 @@ paths:
                     id:
                       type: "integer"
                       format: int64
-                    perfumeTitle:
+                    productTitle:
                       type: "string"
-                    perfumer:
+                    productr:
                       type: "string"
                     price:
                       type: "integer"
@@ -992,17 +992,17 @@ paths:
                       type: "string"
                   example:
                     id: 43
-                    perfumeTitle: "Sauvage"
-                    perfumer: "Dior"
+                    productTitle: "Sauvage"
+                    productr: "Dior"
                     price: 62
                     filename: "empty.jpg"
 
-  /api/v1/perfumes/graphql/perfume:
+  /api/v1/products/graphql/product:
     post:
       tags:
-        - "PerfumeController"
-      summary: "Get perfume by GraphQL query"
-      operationId: "getPerfumeByQuery"
+        - "ProductController"
+      summary: "Get product by GraphQL query"
+      operationId: "getProductByQuery"
       requestBody:
         required: true
         content:
@@ -1012,7 +1012,7 @@ paths:
               properties:
                 query:
                   type: "string"
-                  example: "{ perfume(id: 43) {id perfumeTitle perfumer price filename} }"
+                  example: "{ product(id: 43) {id productTitle productr price filename} }"
       responses:
         "200":
           description: "OK"
@@ -1024,9 +1024,9 @@ paths:
                   id:
                     type: "integer"
                     format: int64
-                  perfumeTitle:
+                  productTitle:
                     type: "string"
-                  perfumer:
+                  productr:
                     type: "string"
                   price:
                     type: "integer"
@@ -1035,8 +1035,8 @@ paths:
                     type: "string"
                 example:
                   id: 43
-                  perfumeTitle: "Sauvage"
-                  perfumer: "Dior"
+                  productTitle: "Sauvage"
+                  productr: "Dior"
                   price: 62
                   filename: "empty.jpg"
 
@@ -1285,7 +1285,7 @@ paths:
     post:
       tags:
         - "UserController"
-      summary: "Get perfumes by ids"
+      summary: "Get products by ids"
       operationId: "getCart"
       requestBody:
         content:
@@ -1304,7 +1304,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: "#/components/schemas/FullPerfumeResponse"
+                  $ref: "#/components/schemas/FullProductResponse"
 
   /api/v1/users/order/{orderId}:
     get:
@@ -1408,7 +1408,7 @@ paths:
               properties:
                 query:
                   type: "string"
-                  example: "{ ordersByEmail(email: test123@test.com) { id totalPrice date firstName lastName city address email phoneNumber postIndex orderItems { id amount quantity perfume { id perfumeTitle perfumer price filename } } } }"
+                  example: "{ ordersByEmail(email: test123@test.com) { id totalPrice date firstName lastName city address email phoneNumber postIndex orderItems { id amount quantity product { id productTitle productr price filename } } } }"
       responses:
         "200":
           description: "OK"
@@ -1459,7 +1459,7 @@ paths:
                   type: "integer"
                   format: "int32"
                   example: 123456
-                perfumesId:
+                productsId:
                   type: "object"
                   properties:
                     43:
@@ -1515,15 +1515,15 @@ paths:
     post:
       tags:
         - "UserController"
-      summary: "Add review to perfume"
-      operationId: "addReviewToPerfume"
+      summary: "Add review to product"
+      operationId: "addReviewToProduct"
       requestBody:
         content:
           'application/json':
             schema:
               type: object
               properties:
-                perfumeId:
+                productId:
                   type: "number"
                   format: "int64"
                   example: 43
@@ -1534,7 +1534,7 @@ paths:
                   type: "string"
                   example: "Hello World!"
               required:
-                - perfumeId
+                - productId
                 - author
                 - message
       responses:
@@ -1570,20 +1570,20 @@ components:
       in: header
 
   schemas:
-    FullPerfumeResponse:
+    FullProductResponse:
       type: "object"
       properties:
         id:
           type: "integer"
           format: "int64"
           example: 43
-        perfumeTitle:
+        productTitle:
           type: "string"
           example: "Sauvage"
-        perfumer:
+        productr:
           type: "string"
           example: "Dior"
-        perfumeRating:
+        productRating:
           type: "integer"
           format: "int32"
           example: 5
@@ -1594,7 +1594,7 @@ components:
         country:
           type: "string"
           example: "France"
-        perfumeGender:
+        productGender:
           type: "string"
           example: "male"
         fragranceTopNotes:
@@ -1608,7 +1608,7 @@ components:
           example: "Ambroxan"
         description:
           type: "string"
-          example: "Perfume description"
+          example: "Product description"
         filename:
           type: "string"
           example: "Dior_Sauvage.jpg"
@@ -1626,17 +1626,17 @@ components:
           type: "string"
           format: binary
             
-    PerfumeResponse:
+    ProductResponse:
       type: "object"
       properties:
         id:
           type: "integer"
           format: "int64"
           example: 43
-        perfumeTitle:
+        productTitle:
           type: "string"
           example: "Sauvage"
-        perfumer:
+        productr:
           type: "string"
           example: "Dior"
         price:
@@ -1646,7 +1646,7 @@ components:
         filename:
           type: "string"
           example: "Dior_Sauvage.jpg"
-        perfumeRating:
+        productRating:
           type: "integer"
           format: "int32"
           example: 5
@@ -1664,7 +1664,7 @@ components:
         message:
           type: "string"
           example: "Message"
-        perfumeRating:
+        productRating:
           type: "integer"
           format: "int32"
           example: 5
@@ -1672,13 +1672,13 @@ components:
           type: "string"
           example: "2021-04-07"
 
-    PerfumeError:
+    ProductError:
       type: "object"
       properties:
-        perfumeTitleError:
+        productTitleError:
           type: "string"
           example: "Fill in the input field"
-        perfumerError:
+        productrError:
           type: "string"
           example: "Fill in the input field"
         yearError:
@@ -1693,7 +1693,7 @@ components:
         volumeError:
           type: "string"
           example: "Fill in the input field"
-        perfumeGenderError:
+        productGenderError:
           type: "string"
           example: "Fill in the input field"
         fragranceTopNotesError:
@@ -1761,8 +1761,8 @@ components:
           type: "integer"
           format: "int64"
           example: 2
-        perfume:
-          $ref: "#/components/schemas/PerfumeResponse"
+        product:
+          $ref: "#/components/schemas/ProductResponse"
 
     BaseUserResponse:
       type: "object"

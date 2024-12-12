@@ -2,11 +2,11 @@ package com.gmail.merikbest2015.ecommerce.service.Impl;
 
 import com.gmail.merikbest2015.ecommerce.domain.Order;
 import com.gmail.merikbest2015.ecommerce.domain.OrderItem;
-import com.gmail.merikbest2015.ecommerce.domain.Perfume;
+import com.gmail.merikbest2015.ecommerce.domain.Product;
 import com.gmail.merikbest2015.ecommerce.exception.ApiRequestException;
 import com.gmail.merikbest2015.ecommerce.repository.OrderItemRepository;
 import com.gmail.merikbest2015.ecommerce.repository.OrderRepository;
-import com.gmail.merikbest2015.ecommerce.repository.PerfumeRepository;
+import com.gmail.merikbest2015.ecommerce.repository.ProductRepository;
 import com.gmail.merikbest2015.ecommerce.service.OrderService;
 import com.gmail.merikbest2015.ecommerce.service.email.MailSender;
 
@@ -32,7 +32,7 @@ public class OrderServiceImpl implements OrderService {
 
     private final OrderRepository orderRepository;
     private final OrderItemRepository orderItemRepository;
-    private final PerfumeRepository perfumeRepository;
+    private final ProductRepository productRepository;
     private final MailSender mailSender;
 
     @Override
@@ -59,14 +59,14 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     @Transactional
-    public Order postOrder(Order order, Map<Long, Long> perfumesId) {
+    public Order postOrder(Order order, Map<Long, Long> productsId) {
         List<OrderItem> orderItemList = new ArrayList<>();
 
-        for (Map.Entry<Long, Long> entry : perfumesId.entrySet()) {
-            Perfume perfume = perfumeRepository.findById(entry.getKey()).get();
+        for (Map.Entry<Long, Long> entry : productsId.entrySet()) {
+            Product product = productRepository.findById(entry.getKey()).get();
             OrderItem orderItem = new OrderItem();
-            orderItem.setPerfume(perfume);
-            orderItem.setAmount((perfume.getPrice() * entry.getValue()));
+            orderItem.setProduct(product);
+            orderItem.setAmount((product.getPrice() * entry.getValue()));
             orderItem.setQuantity(entry.getValue());
             orderItemList.add(orderItem);
             orderItemRepository.save(orderItem);

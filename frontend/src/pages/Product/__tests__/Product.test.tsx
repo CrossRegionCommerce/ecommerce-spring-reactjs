@@ -4,7 +4,7 @@ import { Button } from "antd";
 import { createMockRootState, mockDispatch, mountWithStore } from "../../../utils/test/testHelper";
 import { LoadingStatus } from "../../../types/types";
 import Spinner from "../../../components/Spinner/Spinner";
-import { mockFullPerfumeResponse, mockReviews } from "../../../utils/test/__mocks__/perfumes-mock";
+import { mockFullProductResponse, mockReviews } from "../../../utils/test/__mocks__/products-mock";
 import ProductInfo from "../ProductInfo/ProductInfo";
 import ProductReviews from "../ProductReviews/ProductReviews";
 import ErrorMessage from "../ErrorMessage/ErrorMessage";
@@ -16,7 +16,7 @@ describe("Product", () => {
     const mockRootStore = createMockRootState(LoadingStatus.LOADED);
     const mockStore = {
         ...mockRootStore,
-        perfume: { ...mockRootStore.perfume, perfume: mockFullPerfumeResponse, reviews: mockReviews }
+        product: { ...mockRootStore.product, product: mockFullProductResponse, reviews: mockReviews }
     };
     let mockDispatchFn: jest.Mock;
 
@@ -34,23 +34,23 @@ describe("Product", () => {
     it("should render correctly", () => {
         const wrapper = mountWithStore(<Product />, mockStore);
         expect(mockDispatchFn).nthCalledWith(3, expect.any(Function));
-        expect(wrapper.find(ProductInfo).prop("perfume")).toBe(mockFullPerfumeResponse);
+        expect(wrapper.find(ProductInfo).prop("product")).toBe(mockFullProductResponse);
         expect(wrapper.find(ProductReviews).prop("reviews")).toBe(mockReviews);
     });
 
     it("should render error message", () => {
         const mockStore = {
             ...mockRootStore,
-            perfume: { ...mockRootStore.perfume, loadingState: LoadingStatus.ERROR, errorMessage: "Perfume not found." }
+            product: { ...mockRootStore.product, loadingState: LoadingStatus.ERROR, errorMessage: "Product not found." }
         };
         const wrapper = mountWithStore(<Product />, mockStore);
-        expect(wrapper.find(ErrorMessage).prop("errorMessage")).toBe("Perfume not found.");
+        expect(wrapper.find(ErrorMessage).prop("errorMessage")).toBe("Product not found.");
     });
 
     it("should click add review", () => {
         const mockStore = {
             ...mockRootStore,
-            perfume: { ...mockRootStore.perfume, isReviewAdded: true }
+            product: { ...mockRootStore.product, isReviewAdded: true }
         };
         const wrapper = mountWithStore(<Product />, mockStore);
         wrapper.find(ProductReviews).find(Button).simulate("submit");
@@ -59,6 +59,6 @@ describe("Product", () => {
     it("should unmount Product", () => {
         const wrapper = mountWithStore(<Product />);
         wrapper.unmount();
-        expect(mockDispatchFn).nthCalledWith(3, { type: "perfume/resetPerfumeState" });
+        expect(mockDispatchFn).nthCalledWith(3, { type: "product/resetProductState" });
     });
 });

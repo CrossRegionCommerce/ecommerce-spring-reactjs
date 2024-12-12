@@ -1,7 +1,7 @@
 package com.gmail.merikbest2015.ecommerce.controller;
 
 import com.gmail.merikbest2015.ecommerce.dto.GraphQLRequest;
-import com.gmail.merikbest2015.ecommerce.dto.perfume.PerfumeResponse;
+import com.gmail.merikbest2015.ecommerce.dto.product.ProductResponse;
 import com.gmail.merikbest2015.ecommerce.dto.user.UpdateUserRequest;
 import com.gmail.merikbest2015.ecommerce.dto.user.UserResponse;
 import com.gmail.merikbest2015.ecommerce.mapper.UserMapper;
@@ -40,8 +40,8 @@ public class UserController {
     }
 
     @PostMapping(CART)
-    public ResponseEntity<List<PerfumeResponse>> getCart(@RequestBody List<Long> perfumesIds) {
-        return ResponseEntity.ok(userMapper.getCart(perfumesIds));
+    public ResponseEntity<List<ProductResponse>> getCart(@RequestBody List<Long> productsIds) {
+        return ResponseEntity.ok(userMapper.getCart(productsIds));
     }
 
     @PostMapping(GRAPHQL)

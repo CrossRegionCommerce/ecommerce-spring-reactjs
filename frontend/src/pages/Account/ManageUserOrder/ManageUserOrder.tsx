@@ -81,21 +81,21 @@ const ManageUserOrder: FC = (): ReactElement => {
                                             dataSource={orderItems}
                                             columns={[
                                                 {
-                                                    title: "Perfume Id",
+                                                    title: "Product Id",
                                                     dataIndex: "id",
                                                     key: "id"
                                                 },
                                                 {
-                                                    title: "Perfume Brand",
-                                                    dataIndex: "perfumer",
-                                                    key: "perfumer",
-                                                    render: (_, order: OrderItemResponse) => order.perfume.perfumer
+                                                    title: "Product Brand",
+                                                    dataIndex: "productr",
+                                                    key: "productr",
+                                                    render: (_, order: OrderItemResponse) => order.product.productr
                                                 },
                                                 {
-                                                    title: "Perfume Name",
-                                                    dataIndex: "perfumeTitle",
-                                                    key: "perfumeTitle",
-                                                    render: (_, order: OrderItemResponse) => order.perfume.perfumeTitle
+                                                    title: "Product Name",
+                                                    dataIndex: "productTitle",
+                                                    key: "productTitle",
+                                                    render: (_, order: OrderItemResponse) => order.product.productTitle
                                                 },
                                                 {
                                                     title: "Quantity",
@@ -106,7 +106,7 @@ const ManageUserOrder: FC = (): ReactElement => {
                                                     title: "Price",
                                                     dataIndex: "price",
                                                     key: "price",
-                                                    render: (_, order: OrderItemResponse) => `${order.perfume.price}.0 $`
+                                                    render: (_, order: OrderItemResponse) => `${order.product.price}.0 $`
                                                 },
                                                 {
                                                     title: "Amount",

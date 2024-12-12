@@ -7,47 +7,47 @@ import { UploadChangeParam } from "antd/lib/upload/interface";
 
 import ContentTitle from "../../../components/ContentTitle/ContentTitle";
 import FormInput from "../../../components/FormInput/FormInput";
-import { selectPerfume } from "../../../redux-toolkit/perfume/perfume-selector";
+import { selectProduct } from "../../../redux-toolkit/product/product-selector";
 import {
     selectAdminStateErrors,
     selectIsAdminStateLoading,
-    selectIsPerfumeEdited
+    selectIsProductEdited
 } from "../../../redux-toolkit/admin/admin-selector";
 import { LoadingStatus } from "../../../types/types";
 import { resetAdminState, setAdminLoadingState } from "../../../redux-toolkit/admin/admin-slice";
-import { fetchPerfume } from "../../../redux-toolkit/perfume/perfume-thunks";
+import { fetchProduct } from "../../../redux-toolkit/product/product-thunks";
 import IconButton from "../../../components/IconButton/IconButton";
-import EditPerfumeSelect from "./EditPerfumeSelect";
-import { updatePerfume } from "../../../redux-toolkit/admin/admin-thunks";
-import "./EditPerfume.css";
+import EditProductSelect from "./EditProductSelect";
+import { updateProduct } from "../../../redux-toolkit/admin/admin-thunks";
+import "./EditProduct.css";
 
-type EditPerfumeData = {
-    perfumeTitle: string;
-    perfumer: string;
+type EditProductData = {
+    productTitle: string;
+    productr: string;
     year: string;
     country: string;
     type: string;
     volume: string;
-    perfumeGender: string;
+    productGender: string;
     fragranceTopNotes: string;
     fragranceMiddleNotes: string;
     fragranceBaseNotes: string;
     price: string;
 };
 
-const EditPerfume: FC = (): ReactElement => {
+const EditProduct: FC = (): ReactElement => {
     const dispatch = useDispatch();
     const [form] = Form.useForm();
     const params = useParams<{ id: string }>();
-    const perfumeData = useSelector(selectPerfume);
+    const productData = useSelector(selectProduct);
     const isLoading = useSelector(selectIsAdminStateLoading);
     const errors = useSelector(selectAdminStateErrors);
-    const isPerfumeEdited = useSelector(selectIsPerfumeEdited);
+    const isProductEdited = useSelector(selectIsProductEdited);
     const [file, setFile] = React.useState<string>("");
 
     useEffect(() => {
         dispatch(setAdminLoadingState(LoadingStatus.LOADED));
-        dispatch(fetchPerfume(params.id));
+        dispatch(fetchProduct(params.id));
 
         return () => {
             dispatch(resetAdminState(LoadingStatus.LOADING));
@@ -55,32 +55,32 @@ const EditPerfume: FC = (): ReactElement => {
     }, []);
     
     useEffect(() => {
-        if (perfumeData) {
-            form.setFieldsValue(perfumeData);
+        if (productData) {
+            form.setFieldsValue(productData);
         }
-    }, [perfumeData])
+    }, [productData])
 
     useEffect(() => {
-        if (isPerfumeEdited) {
+        if (isProductEdited) {
             window.scrollTo(0, 0);
             notification.success({
-                message: "Perfume edited",
-                description: "Perfume successfully edited!"
+                message: "Product edited",
+                description: "Product successfully edited!"
             });
             dispatch(resetAdminState(LoadingStatus.SUCCESS));
         }
-    }, [isPerfumeEdited]);
+    }, [isProductEdited]);
 
-    const onFormSubmit = (data: EditPerfumeData): void => {
+    const onFormSubmit = (data: EditProductData): void => {
         const bodyFormData: FormData = new FormData();
         // @ts-ignore
         bodyFormData.append("file", { file });
         bodyFormData.append(
-            "perfume",
-            new Blob([JSON.stringify({ ...data, id: perfumeData?.id })], { type: "application/json" })
+            "product",
+            new Blob([JSON.stringify({ ...data, id: productData?.id })], { type: "application/json" })
         );
 
-        dispatch(updatePerfume(bodyFormData));
+        dispatch(updateProduct(bodyFormData));
     };
 
     const handleUpload = ({ file }: UploadChangeParam<any>): void => {
@@ -89,25 +89,25 @@ const EditPerfume: FC = (): ReactElement => {
 
     return (
         <div>
-            <ContentTitle title={"Edit perfume"} titleLevel={4} icon={<EditOutlined />} />
+            <ContentTitle title={"Edit product"} titleLevel={4} icon={<EditOutlined />} />
             <Form onFinish={onFormSubmit} form={form}>
                 <Row gutter={32}>
                     <Col span={12}>
                         <FormInput
-                            title={"Perfume title"}
+                            title={"Product title"}
                             titleSpan={6}
                             wrapperSpan={18}
-                            name={"perfumeTitle"}
-                            error={errors.perfumeTitleError}
+                            name={"productTitle"}
+                            error={errors.productTitleError}
                             disabled={isLoading}
-                            placeholder={"Perfume title"}
+                            placeholder={"Product title"}
                         />
                         <FormInput
                             title={"Brand"}
                             titleSpan={6}
                             wrapperSpan={18}
-                            name={"perfumer"}
-                            error={errors.perfumerError}
+                            name={"productr"}
+                            error={errors.productrError}
                             disabled={isLoading}
                             placeholder={"Brand"}
                         />
@@ -129,17 +129,17 @@ const EditPerfume: FC = (): ReactElement => {
                             disabled={isLoading}
                             placeholder={"Country"}
                         />
-                        <EditPerfumeSelect
-                            title={"Perfume type"}
+                        <EditProductSelect
+                            title={"Product type"}
                             name={"type"}
-                            placeholder={"Perfume type"}
+                            placeholder={"Product type"}
                             error={errors.typeError}
                             disabled={isLoading}
                             values={["Eau de Parfum", "Eau de Toilette"]}
                         />
-                        <EditPerfumeSelect
+                        <EditProductSelect
                             title={"Gender"}
-                            name={"perfumeGender"}
+                            name={"productGender"}
                             placeholder={"Gender"}
                             disabled={isLoading}
                             values={["male", "female"]}
@@ -194,11 +194,11 @@ const EditPerfume: FC = (): ReactElement => {
                         <Upload name={"file"} onChange={handleUpload} beforeUpload={() => false}>
                             <Button icon={<UploadOutlined />}>Click to Upload</Button>
                         </Upload>
-                        <div className={"edit-perfume-image-wrapper"}>
+                        <div className={"edit-product-image-wrapper"}>
                             <img
-                                className={"edit-perfume-image"}
-                                src={perfumeData.filename}
-                                alt={perfumeData.perfumeTitle}
+                                className={"edit-product-image"}
+                                src={productData.filename}
+                                alt={productData.productTitle}
                             />
                         </div>
                     </Col>
@@ -209,4 +209,4 @@ const EditPerfume: FC = (): ReactElement => {
     );
 };
 
-export default EditPerfume;
+export default EditProduct;

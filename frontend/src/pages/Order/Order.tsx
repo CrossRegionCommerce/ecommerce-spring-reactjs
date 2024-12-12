@@ -32,19 +32,19 @@ const Order: FC = (): ReactElement => {
     const history = useHistory();
     const [form] = Form.useForm();
     const usersData = useSelector(selectUserFromUserState);
-    const perfumes = useSelector(selectCartItems);
+    const products = useSelector(selectCartItems);
     const totalPrice = useSelector(selectTotalPrice);
     const errors = useSelector(selectOrderErrors);
     const isOrderLoading = useSelector(selectIsOrderLoading);
-    const [perfumesFromLocalStorage, setPerfumesFromLocalStorage] = useState<Map<number, number>>(new Map());
+    const [productsFromLocalStorage, setProductsFromLocalStorage] = useState<Map<number, number>>(new Map());
 
     useEffect(() => {
-        const perfumesFromLocalStorage: Map<number, number> = new Map(
-            JSON.parse(localStorage.getItem("perfumes") as string)
+        const productsFromLocalStorage: Map<number, number> = new Map(
+            JSON.parse(localStorage.getItem("products") as string)
         );
-        setPerfumesFromLocalStorage(perfumesFromLocalStorage);
+        setProductsFromLocalStorage(productsFromLocalStorage);
         dispatch(setOrderLoadingState(LoadingStatus.LOADED));
-        dispatch(fetchCart(Array.from(perfumesFromLocalStorage.keys())));
+        dispatch(fetchCart(Array.from(productsFromLocalStorage.keys())));
 
         if (usersData) {
             form.setFieldsValue(usersData);
@@ -57,8 +57,8 @@ const Order: FC = (): ReactElement => {
     }, []);
 
     const onFormSubmit = (order: OrderFormData): void => {
-        const perfumesId = Object.fromEntries(new Map(JSON.parse(localStorage.getItem("perfumes") as string)));
-        dispatch(addOrder({ order: { ...order, perfumesId, totalPrice }, history }));
+        const productsId = Object.fromEntries(new Map(JSON.parse(localStorage.getItem("products") as string)));
+        dispatch(addOrder({ order: { ...order, productsId, totalPrice }, history }));
     };
 
     return (
@@ -135,11 +135,11 @@ const Order: FC = (): ReactElement => {
                     </Col>
                     <Col span={12}>
                         <Row gutter={[32, 32]}>
-                            {perfumes.map((perfume) => (
+                            {products.map((product) => (
                                 <OrderItem
-                                    key={perfume.id}
-                                    perfume={perfume}
-                                    quantity={perfumesFromLocalStorage.get(perfume.id)}
+                                    key={product.id}
+                                    product={product}
+                                    quantity={productsFromLocalStorage.get(product.id)}
                                 />
                             ))}
                         </Row>

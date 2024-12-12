@@ -2,9 +2,9 @@ package com.gmail.merikbest2015.ecommerce.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gmail.merikbest2015.ecommerce.dto.GraphQLRequest;
-import com.gmail.merikbest2015.ecommerce.dto.perfume.PerfumeSearchRequest;
-import com.gmail.merikbest2015.ecommerce.dto.perfume.SearchTypeRequest;
-import com.gmail.merikbest2015.ecommerce.enums.SearchPerfume;
+import com.gmail.merikbest2015.ecommerce.dto.product.ProductSearchRequest;
+import com.gmail.merikbest2015.ecommerce.dto.product.SearchTypeRequest;
+import com.gmail.merikbest2015.ecommerce.enums.SearchProduct;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -35,9 +35,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(SpringRunner.class)
 @AutoConfigureMockMvc
 @TestPropertySource("/application-test.properties")
-@Sql(value = {"/sql/create-perfumes-before.sql"}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
-@Sql(value = {"/sql/create-perfumes-after.sql"}, executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
-public class PerfumeControllerTest {
+@Sql(value = {"/sql/create-products-before.sql"}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
+@Sql(value = {"/sql/create-products-after.sql"}, executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
+public class ProductControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -45,21 +45,21 @@ public class PerfumeControllerTest {
     @Autowired
     private ObjectMapper mapper;
 
-    private PerfumeSearchRequest filter;
+    private ProductSearchRequest filter;
     private GraphQLRequest graphQLRequest;
 
     @Before
     public void init() {
         List<Integer> prices = new ArrayList<>();
-        List<String> perfumers = new ArrayList<>();
+        List<String> productrs = new ArrayList<>();
         List<String> genders = new ArrayList<>();
-        perfumers.add(PERFUMER_CHANEL);
+        productrs.add(PERFUMER_CHANEL);
         genders.add(PERFUME_GENDER);
         prices.add(1);
         prices.add(1000);
 
-        filter = new PerfumeSearchRequest();
-        filter.setPerfumers(perfumers);
+        filter = new ProductSearchRequest();
+        filter.setProductrs(productrs);
         filter.setGenders(genders);
         filter.setPrices(prices);
         filter.setSortByPrice(true);
@@ -68,30 +68,30 @@ public class PerfumeControllerTest {
     }
 
     @Test
-    public void getAllPerfumes() throws Exception {
+    public void getAllProducts() throws Exception {
         mockMvc.perform(get(API_V1_PERFUMES)
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[*].id").isNotEmpty())
-                .andExpect(jsonPath("$[*].perfumeTitle").isNotEmpty())
-                .andExpect(jsonPath("$[*].perfumer").isNotEmpty())
+                .andExpect(jsonPath("$[*].productTitle").isNotEmpty())
+                .andExpect(jsonPath("$[*].productr").isNotEmpty())
                 .andExpect(jsonPath("$[*].filename").isNotEmpty())
                 .andExpect(jsonPath("$[*].price").isNotEmpty());
     }
 
     @Test
-    public void getPerfumeById() throws Exception {
+    public void getProductById() throws Exception {
         mockMvc.perform(get(API_V1_PERFUMES + PERFUME_ID, 1)
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id", equalTo(1)))
-                .andExpect(jsonPath("$.perfumeTitle", equalTo("Boss Bottled Night")))
-                .andExpect(jsonPath("$.perfumer", equalTo("Hugo Boss")))
+                .andExpect(jsonPath("$.productTitle", equalTo("Boss Bottled Night")))
+                .andExpect(jsonPath("$.productr", equalTo("Hugo Boss")))
                 .andExpect(jsonPath("$.country", equalTo("Germany")));
     }
 
     @Test
-    public void getPerfumeById_ShouldNotFound() throws Exception {
+    public void getProductById_ShouldNotFound() throws Exception {
         mockMvc.perform(get(API_V1_PERFUMES + PERFUME_ID, 1111)
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isNotFound())
@@ -99,41 +99,41 @@ public class PerfumeControllerTest {
     }
 
     @Test
-    public void getPerfumesByIds() throws Exception {
+    public void getProductsByIds() throws Exception {
         mockMvc.perform(post(API_V1_PERFUMES + IDS)
                         .content(mapper.writeValueAsString(Arrays.asList(3L, 4L, 5L)))
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[*].id").isNotEmpty())
-                .andExpect(jsonPath("$[*].perfumeTitle").isNotEmpty())
-                .andExpect(jsonPath("$[*].perfumer").isNotEmpty())
+                .andExpect(jsonPath("$[*].productTitle").isNotEmpty())
+                .andExpect(jsonPath("$[*].productr").isNotEmpty())
                 .andExpect(jsonPath("$[*].filename").isNotEmpty())
                 .andExpect(jsonPath("$[*].price").isNotEmpty());
     }
 
     @Test
-    public void findPerfumesByFilterParams() throws Exception {
+    public void findProductsByFilterParams() throws Exception {
         mockMvc.perform(post(API_V1_PERFUMES + SEARCH)
                         .content(mapper.writeValueAsString(filter))
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[*].id").isNotEmpty())
-                .andExpect(jsonPath("$[*].perfumeTitle").isNotEmpty())
-                .andExpect(jsonPath("$[*].perfumer").isNotEmpty())
+                .andExpect(jsonPath("$[*].productTitle").isNotEmpty())
+                .andExpect(jsonPath("$[*].productr").isNotEmpty())
                 .andExpect(jsonPath("$[*].filename").isNotEmpty())
                 .andExpect(jsonPath("$[*].price").isNotEmpty());
     }
 
     @Test
-    public void findPerfumesByFilterParamsPerfumers() throws Exception {
-        PerfumeSearchRequest filter = new PerfumeSearchRequest();
-        List<String> perfumers = new ArrayList<>();
-        perfumers.add(PERFUMER_CHANEL);
+    public void findProductsByFilterParamsProductrs() throws Exception {
+        ProductSearchRequest filter = new ProductSearchRequest();
+        List<String> productrs = new ArrayList<>();
+        productrs.add(PERFUMER_CHANEL);
         List<Integer> prices = new ArrayList<>();
         prices.add(150);
         prices.add(250);
 
-        filter.setPerfumers(perfumers);
+        filter.setProductrs(productrs);
         filter.setGenders(new ArrayList<>());
         filter.setPrices(prices);
         filter.setSortByPrice(true);
@@ -143,40 +143,40 @@ public class PerfumeControllerTest {
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[*].id").isNotEmpty())
-                .andExpect(jsonPath("$[*].perfumeTitle").isNotEmpty())
-                .andExpect(jsonPath("$[*].perfumer").isNotEmpty())
+                .andExpect(jsonPath("$[*].productTitle").isNotEmpty())
+                .andExpect(jsonPath("$[*].productr").isNotEmpty())
                 .andExpect(jsonPath("$[*].filename").isNotEmpty())
                 .andExpect(jsonPath("$[*].price").isNotEmpty());
     }
 
     @Test
-    public void findByPerfumeGender() throws Exception {
-        PerfumeSearchRequest filter = new PerfumeSearchRequest();
-        filter.setPerfumeGender(PERFUME_GENDER);
+    public void findByProductGender() throws Exception {
+        ProductSearchRequest filter = new ProductSearchRequest();
+        filter.setProductGender(PERFUME_GENDER);
 
         mockMvc.perform(post(API_V1_PERFUMES + SEARCH_GENDER)
                         .content(mapper.writeValueAsString(filter))
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[*].id").isNotEmpty())
-                .andExpect(jsonPath("$[*].perfumeTitle").isNotEmpty())
-                .andExpect(jsonPath("$[*].perfumer").isNotEmpty())
+                .andExpect(jsonPath("$[*].productTitle").isNotEmpty())
+                .andExpect(jsonPath("$[*].productr").isNotEmpty())
                 .andExpect(jsonPath("$[*].filename").isNotEmpty())
                 .andExpect(jsonPath("$[*].price").isNotEmpty());
     }
 
     @Test
-    public void findByPerfumer() throws Exception {
-        PerfumeSearchRequest filter = new PerfumeSearchRequest();
-        filter.setPerfumer(PERFUMER_CHANEL);
+    public void findByProductr() throws Exception {
+        ProductSearchRequest filter = new ProductSearchRequest();
+        filter.setProductr(PERFUMER_CHANEL);
 
         mockMvc.perform(post(API_V1_PERFUMES + SEARCH_PERFUMER)
                         .content(mapper.writeValueAsString(filter))
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[*].id").isNotEmpty())
-                .andExpect(jsonPath("$[*].perfumeTitle").isNotEmpty())
-                .andExpect(jsonPath("$[*].perfumer").isNotEmpty())
+                .andExpect(jsonPath("$[*].productTitle").isNotEmpty())
+                .andExpect(jsonPath("$[*].productr").isNotEmpty())
                 .andExpect(jsonPath("$[*].filename").isNotEmpty())
                 .andExpect(jsonPath("$[*].price").isNotEmpty());
     }
@@ -184,7 +184,7 @@ public class PerfumeControllerTest {
     @Test
     public void findByInputText() throws Exception {
         SearchTypeRequest request = new SearchTypeRequest();
-        request.setSearchType(SearchPerfume.COUNTRY);
+        request.setSearchType(SearchProduct.COUNTRY);
         request.setText("France");
         
         mockMvc.perform(post(API_V1_PERFUMES + SEARCH_TEXT)
@@ -193,12 +193,12 @@ public class PerfumeControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[*]", hasSize(15)))
                 .andExpect(jsonPath("$[*].id").isNotEmpty())
-                .andExpect(jsonPath("$[*].perfumeTitle").isNotEmpty())
-                .andExpect(jsonPath("$[*].perfumer").isNotEmpty())
+                .andExpect(jsonPath("$[*].productTitle").isNotEmpty())
+                .andExpect(jsonPath("$[*].productr").isNotEmpty())
                 .andExpect(jsonPath("$[*].filename").isNotEmpty())
                 .andExpect(jsonPath("$[*].price").isNotEmpty());
 
-        request.setSearchType(SearchPerfume.BRAND);
+        request.setSearchType(SearchProduct.BRAND);
         request.setText("Creed");
         
         mockMvc.perform(post(API_V1_PERFUMES + SEARCH_TEXT)
@@ -207,12 +207,12 @@ public class PerfumeControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[*]", hasSize(7)))
                 .andExpect(jsonPath("$[*].id").isNotEmpty())
-                .andExpect(jsonPath("$[*].perfumeTitle").isNotEmpty())
-                .andExpect(jsonPath("$[*].perfumer").isNotEmpty())
+                .andExpect(jsonPath("$[*].productTitle").isNotEmpty())
+                .andExpect(jsonPath("$[*].productr").isNotEmpty())
                 .andExpect(jsonPath("$[*].filename").isNotEmpty())
                 .andExpect(jsonPath("$[*].price").isNotEmpty());
 
-        request.setSearchType(SearchPerfume.PERFUME_TITLE);
+        request.setSearchType(SearchProduct.PERFUME_TITLE);
         request.setText("Chanel N5");
 
         mockMvc.perform(post(API_V1_PERFUMES + SEARCH_TEXT)
@@ -221,52 +221,52 @@ public class PerfumeControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[*]", hasSize(1)))
                 .andExpect(jsonPath("$[*].id").isNotEmpty())
-                .andExpect(jsonPath("$[*].perfumeTitle").isNotEmpty())
-                .andExpect(jsonPath("$[*].perfumer").isNotEmpty())
+                .andExpect(jsonPath("$[*].productTitle").isNotEmpty())
+                .andExpect(jsonPath("$[*].productr").isNotEmpty())
                 .andExpect(jsonPath("$[*].filename").isNotEmpty())
                 .andExpect(jsonPath("$[*].price").isNotEmpty());
     }
 
     @Test
-    public void getPerfumesByIdsQuery() throws Exception {
+    public void getProductsByIdsQuery() throws Exception {
         graphQLRequest.setQuery(GRAPHQL_QUERY_PERFUMES_BY_IDS);
 
         mockMvc.perform(post(API_V1_PERFUMES + GRAPHQL_IDS)
                         .content(mapper.writeValueAsString(graphQLRequest))
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.data.perfumesIds[*].id").isNotEmpty())
-                .andExpect(jsonPath("$.data.perfumesIds[*].perfumeTitle").isNotEmpty())
-                .andExpect(jsonPath("$.data.perfumesIds[*].perfumer").isNotEmpty())
-                .andExpect(jsonPath("$.data.perfumesIds[*].price").isNotEmpty());
+                .andExpect(jsonPath("$.data.productsIds[*].id").isNotEmpty())
+                .andExpect(jsonPath("$.data.productsIds[*].productTitle").isNotEmpty())
+                .andExpect(jsonPath("$.data.productsIds[*].productr").isNotEmpty())
+                .andExpect(jsonPath("$.data.productsIds[*].price").isNotEmpty());
     }
 
     @Test
-    public void getAllPerfumesByQuery() throws Exception {
+    public void getAllProductsByQuery() throws Exception {
         graphQLRequest.setQuery(GRAPHQL_QUERY_PERFUMES);
 
         mockMvc.perform(post(API_V1_PERFUMES + GRAPHQL_PERFUMES)
                         .content(mapper.writeValueAsString(graphQLRequest))
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.data.perfumes[*].id").isNotEmpty())
-                .andExpect(jsonPath("$.data.perfumes[*].perfumeTitle").isNotEmpty())
-                .andExpect(jsonPath("$.data.perfumes[*].perfumer").isNotEmpty())
-                .andExpect(jsonPath("$.data.perfumes[*].price").isNotEmpty())
-                .andExpect(jsonPath("$.data.perfumes[*].filename").isNotEmpty());
+                .andExpect(jsonPath("$.data.products[*].id").isNotEmpty())
+                .andExpect(jsonPath("$.data.products[*].productTitle").isNotEmpty())
+                .andExpect(jsonPath("$.data.products[*].productr").isNotEmpty())
+                .andExpect(jsonPath("$.data.products[*].price").isNotEmpty())
+                .andExpect(jsonPath("$.data.products[*].filename").isNotEmpty());
     }
 
     @Test
-    public void getPerfumeByQuery() throws Exception {
+    public void getProductByQuery() throws Exception {
         graphQLRequest.setQuery(GRAPHQL_QUERY_PERFUME);
 
         mockMvc.perform(post(API_V1_PERFUMES + GRAPHQL_PERFUME)
                         .content(mapper.writeValueAsString(graphQLRequest))
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.data.perfume.id", equalTo(1)))
-                .andExpect(jsonPath("$.data.perfume.perfumeTitle", equalTo("Boss Bottled Night")))
-                .andExpect(jsonPath("$.data.perfume.perfumer", equalTo("Hugo Boss")))
-                .andExpect(jsonPath("$.data.perfume.price", equalTo(35)));
+                .andExpect(jsonPath("$.data.product.id", equalTo(1)))
+                .andExpect(jsonPath("$.data.product.productTitle", equalTo("Boss Bottled Night")))
+                .andExpect(jsonPath("$.data.product.productr", equalTo("Hugo Boss")))
+                .andExpect(jsonPath("$.data.product.price", equalTo(35)));
     }
 }

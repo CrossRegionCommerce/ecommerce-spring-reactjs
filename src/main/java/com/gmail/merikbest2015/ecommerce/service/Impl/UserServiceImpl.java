@@ -1,9 +1,9 @@
 package com.gmail.merikbest2015.ecommerce.service.Impl;
 
-import com.gmail.merikbest2015.ecommerce.domain.Perfume;
+import com.gmail.merikbest2015.ecommerce.domain.Product;
 import com.gmail.merikbest2015.ecommerce.domain.User;
 import com.gmail.merikbest2015.ecommerce.exception.ApiRequestException;
-import com.gmail.merikbest2015.ecommerce.repository.PerfumeRepository;
+import com.gmail.merikbest2015.ecommerce.repository.ProductRepository;
 import com.gmail.merikbest2015.ecommerce.repository.UserRepository;
 import com.gmail.merikbest2015.ecommerce.service.UserService;
 import graphql.schema.DataFetcher;
@@ -24,7 +24,7 @@ import static com.gmail.merikbest2015.ecommerce.constants.ErrorMessage.USER_NOT_
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
-    private final PerfumeRepository perfumeRepository;
+    private final ProductRepository productRepository;
 
     @Override
     public User getUserById(Long userId) {
@@ -44,8 +44,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<Perfume> getCart(List<Long> perfumeIds) {
-        return perfumeRepository.findByIdIn(perfumeIds);
+    public List<Product> getCart(List<Long> productIds) {
+        return productRepository.findByIdIn(productIds);
     }
 
     @Override

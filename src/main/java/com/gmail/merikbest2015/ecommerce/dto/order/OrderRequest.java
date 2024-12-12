@@ -14,7 +14,7 @@ import static com.gmail.merikbest2015.ecommerce.constants.ErrorMessage.*;
 public class OrderRequest {
 
     private Double totalPrice;
-    private Map<Long, Long> perfumesId;
+    private Map<Long, Long> productsId;
 
     @NotBlank(message = FILL_IN_THE_INPUT_FIELD)
     private String firstName;

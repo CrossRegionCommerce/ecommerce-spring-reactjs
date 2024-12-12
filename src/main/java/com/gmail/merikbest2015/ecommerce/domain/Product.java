@@ -12,20 +12,20 @@ import java.util.Objects;
 @Setter
 @ToString
 @Entity
-@Table(name = "perfume")
-public class Perfume {
+@Table(name = "product")
+public class Product {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "perfume_id_seq")
-    @SequenceGenerator(name = "perfume_id_seq", sequenceName = "perfume_id_seq", initialValue = 109, allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "product_id_seq")
+    @SequenceGenerator(name = "product_id_seq", sequenceName = "product_id_seq", initialValue = 109, allocationSize = 1)
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "perfume_title")
-    private String perfumeTitle;
+    @Column(name = "product_title")
+    private String productTitle;
 
-    @Column(name = "perfumer")
-    private String perfumer;
+    @Column(name = "productr")
+    private String productr;
 
     @Column(name = "year")
     private Integer year;
@@ -33,8 +33,8 @@ public class Perfume {
     @Column(name = "country")
     private String country;
 
-    @Column(name = "perfume_gender")
-    private String perfumeGender;
+    @Column(name = "product_gender")
+    private String productGender;
 
     @Column(name = "fragrance_top_notes")
     private String fragranceTopNotes;
@@ -60,8 +60,8 @@ public class Perfume {
     @Column(name = "type")
     private String type;
     
-    @Column(name = "perfume_rating")
-    private Double perfumeRating;
+    @Column(name = "product_rating")
+    private Double productRating;
 
     @OneToMany
     @ToString.Exclude
@@ -71,8 +71,8 @@ public class Perfume {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Perfume perfume = (Perfume) o;
-        return Objects.equals(id, perfume.id);
+        Product product = (Product) o;
+        return Objects.equals(id, product.id);
     }
 
     @Override

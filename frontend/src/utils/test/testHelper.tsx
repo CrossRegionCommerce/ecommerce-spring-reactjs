@@ -54,8 +54,8 @@ export const createMockRootState = (loadingStatus = LoadingStatus.LOADING): any 
         cart: { ...mockStore.cart, loadingState: loadingStatus },
         order: { ...mockStore.order, loadingState: loadingStatus },
         orders: { ...mockStore.orders, loadingState: loadingStatus },
-        perfume: { ...mockStore.perfume, loadingState: loadingStatus },
-        perfumes: { ...mockStore.perfumes, loadingState: loadingStatus },
+        product: { ...mockStore.product, loadingState: loadingStatus },
+        products: { ...mockStore.products, loadingState: loadingStatus },
         user: { ...mockStore.user, user: mockUserAdmin, loadingState: loadingStatus }
     };
 };

@@ -3,70 +3,70 @@ import { useDispatch, useSelector } from "react-redux";
 import { UnorderedListOutlined } from "@ant-design/icons";
 import { Col, notification, Pagination, Row } from "antd";
 
-import { selectIsPerfumeDeleted } from "../../../redux-toolkit/admin/admin-selector";
-import { selectIsPerfumesLoading, selectPerfumes } from "../../../redux-toolkit/perfumes/perfumes-selector";
-import { fetchPerfumes, fetchPerfumesByInputText } from "../../../redux-toolkit/perfumes/perfumes-thunks";
-import { resetPerfumesState } from "../../../redux-toolkit/perfumes/perfumes-slice";
+import { selectIsProductDeleted } from "../../../redux-toolkit/admin/admin-selector";
+import { selectIsProductsLoading, selectProducts } from "../../../redux-toolkit/products/products-selector";
+import { fetchProducts, fetchProductsByInputText } from "../../../redux-toolkit/products/products-thunks";
+import { resetProductsState } from "../../../redux-toolkit/products/products-slice";
 import { resetAdminState } from "../../../redux-toolkit/admin/admin-slice";
 import ContentTitle from "../../../components/ContentTitle/ContentTitle";
 import SelectSearchData from "../../../components/SelectSearchData/SelectSearchData";
 import InputSearch from "../../../components/InputSearch/InputSearch";
-import PerfumeCard from "../../../components/PerfumeCard/PerfumeCard";
-import { deletePerfume } from "../../../redux-toolkit/admin/admin-thunks";
-import { LoadingStatus, PerfumeResponse } from "../../../types/types";
+import ProductCard from "../../../components/ProductCard/ProductCard";
+import { deleteProduct } from "../../../redux-toolkit/admin/admin-thunks";
+import { LoadingStatus, ProductResponse } from "../../../types/types";
 import DeleteModal from "./DeleteModal/DeleteModal";
 import Spinner from "../../../components/Spinner/Spinner";
 import { MAX_PAGE_VALUE, usePagination } from "../../../hooks/usePagination";
 import { useSearch } from "../../../hooks/useSearch";
-import "./PerfumeList.css";
+import "./ProductList.css";
 
-const PerfumeList: FC = (): ReactElement => {
+const ProductList: FC = (): ReactElement => {
     const dispatch = useDispatch();
-    const perfumes = useSelector(selectPerfumes);
-    const isPerfumesLoading = useSelector(selectIsPerfumesLoading);
-    const isPerfumeDeleted = useSelector(selectIsPerfumeDeleted);
-    const [perfumeInfo, setPerfumeInfo] = useState<PerfumeResponse>();
+    const products = useSelector(selectProducts);
+    const isProductsLoading = useSelector(selectIsProductsLoading);
+    const isProductDeleted = useSelector(selectIsProductDeleted);
+    const [productInfo, setProductInfo] = useState<ProductResponse>();
     const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
     const { currentPage, totalElements, handleChangePagination } = usePagination();
     const { searchValue, searchTypeValue, onSearch, handleChangeSelect } = useSearch();
 
     useEffect(() => {
-        dispatch(fetchPerfumes(0));
+        dispatch(fetchProducts(0));
 
         return () => {
-            dispatch(resetPerfumesState());
+            dispatch(resetProductsState());
             dispatch(resetAdminState(LoadingStatus.LOADING));
         };
     }, []);
 
     useEffect(() => {
-        if (isPerfumeDeleted) {
+        if (isProductDeleted) {
             window.scrollTo(0, 0);
             notification.success({
-                message: "Perfume deleted",
-                description: "Perfume successfully deleted!"
+                message: "Product deleted",
+                description: "Product successfully deleted!"
             });
         }
-    }, [isPerfumeDeleted]);
+    }, [isProductDeleted]);
 
     const changePagination = (page: number, pageSize: number): void => {
         if (searchValue) {
             dispatch(
-                fetchPerfumesByInputText({ searchType: searchTypeValue, text: searchValue, currentPage: page - 1 })
+                fetchProductsByInputText({ searchType: searchTypeValue, text: searchValue, currentPage: page - 1 })
             );
         } else {
-            dispatch(fetchPerfumes(page - 1));
+            dispatch(fetchProducts(page - 1));
         }
         handleChangePagination(page, pageSize);
     };
 
-    const showDeleteModalWindow = (perfume: PerfumeResponse): void => {
+    const showDeleteModalWindow = (product: ProductResponse): void => {
         setIsModalVisible(true);
-        setPerfumeInfo(perfume);
+        setProductInfo(product);
     };
 
-    const deletePerfumeHandler = (): void => {
-        dispatch(deletePerfume(perfumeInfo?.id!));
+    const deleteProductHandler = (): void => {
+        dispatch(deleteProduct(productInfo?.id!));
     };
 
     const handleCancel = (): void => {
@@ -75,7 +75,7 @@ const PerfumeList: FC = (): ReactElement => {
 
     return (
         <div>
-            <ContentTitle title={"List of perfumes"} titleLevel={4} icon={<UnorderedListOutlined />} />
+            <ContentTitle title={"List of products"} titleLevel={4} icon={<UnorderedListOutlined />} />
             <Row>
                 <Col span={24}>
                     <Row>
@@ -86,7 +86,7 @@ const PerfumeList: FC = (): ReactElement => {
                             <InputSearch onSearch={onSearch} />
                         </Col>
                     </Row>
-                    {isPerfumesLoading ? (
+                    {isProductsLoading ? (
                         <Spinner />
                     ) : (
                         <>
@@ -102,10 +102,10 @@ const PerfumeList: FC = (): ReactElement => {
                                 </Col>
                             </Row>
                             <Row gutter={[32, 32]}>
-                                {perfumes.map((perfume) => (
-                                    <PerfumeCard
-                                        key={perfume.id}
-                                        perfume={perfume}
+                                {products.map((product) => (
+                                    <ProductCard
+                                        key={product.id}
+                                        product={product}
                                         colSpan={8}
                                         onOpenDelete={showDeleteModalWindow}
                                         edit
@@ -127,12 +127,12 @@ const PerfumeList: FC = (): ReactElement => {
             </Row>
             <DeleteModal
                 visible={isModalVisible}
-                deletePerfumeHandler={deletePerfumeHandler}
+                deleteProductHandler={deleteProductHandler}
                 handleCancel={handleCancel}
-                perfumeInfo={perfumeInfo}
+                productInfo={productInfo}
             />
         </div>
     );
 };
 
-export default PerfumeList;
+export default ProductList;

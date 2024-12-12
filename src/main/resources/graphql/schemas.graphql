@@ -3,22 +3,22 @@ schema {
 }
 
 type Query {
-    perfumes: [Perfume]
-    perfumesIds(ids: [ID]): [Perfume]
-    perfume(id: ID): Perfume
+    products: [Product]
+    productsIds(ids: [ID]): [Product]
+    product(id: ID): Product
     orders: [Order]
     ordersByEmail(email: String): [Order]
     users: [User]
     user(id: ID): User
 }
 
-type Perfume {
+type Product {
     id: Int
-    perfumeTitle: String
-    perfumer: String
+    productTitle: String
+    productr: String
     year: Int
     country: String
-    perfumeGender: String
+    productGender: String
     fragranceTopNotes: String
     fragranceMiddleNotes: String
     fragranceBaseNotes: String
@@ -27,7 +27,7 @@ type Perfume {
     price: Int
     volume: String
     type: String
-    perfumeRating: Float
+    productRating: Float
     reviews: [Review]
 }
 
@@ -57,7 +57,7 @@ type OrderItem {
     id: Int
     amount: Int
     quantity: Int
-    perfume: Perfume
+    product: Product
 }
 
 type User {

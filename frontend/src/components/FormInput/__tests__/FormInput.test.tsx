@@ -8,12 +8,12 @@ describe("FormInput", () => {
     it("should render error message", () => {
         const wrapper = mountWithStore(
             <FormInput
-                title={"Perfume title"}
+                title={"Product title"}
                 titleSpan={6}
                 wrapperSpan={18}
-                name={"perfumeTitle"}
+                name={"productTitle"}
                 error={"Fill in the input field"}
-                placeholder={"Perfume title"}
+                placeholder={"Product title"}
                 disabled={false}
                 inputPassword={true}
             />
@@ -25,11 +25,11 @@ describe("FormInput", () => {
     it("should render input field", () => {
         const wrapper = mountWithStore(
             <FormInput
-                title={"Perfume title"}
+                title={"Product title"}
                 titleSpan={6}
                 wrapperSpan={18}
-                name={"perfumeTitle"}
-                placeholder={"Perfume title"}
+                name={"productTitle"}
+                placeholder={"Product title"}
                 disabled={false}
                 inputPassword={false}
             />

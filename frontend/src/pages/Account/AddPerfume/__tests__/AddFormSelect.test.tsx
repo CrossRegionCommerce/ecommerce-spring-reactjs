@@ -8,7 +8,7 @@ describe("AddFormSelect", () => {
     it("should render correctly", () => {
         const wrapper = mountWithStore(
             <AddFormSelect
-                title={"Perfume type"}
+                title={"Product type"}
                 name={"type"}
                 error={"Fill in the input field"}
                 placeholder={"Eau de Parfum"}
@@ -16,7 +16,7 @@ describe("AddFormSelect", () => {
                 values={["Eau de Parfum", "Eau de Toilette"]}
             />
         );
-        expect(wrapper.text().includes("Perfume type")).toBe(true);
+        expect(wrapper.text().includes("Product type")).toBe(true);
         expect(wrapper.find(Form.Item).prop("name")).toBe("type");
         expect(wrapper.find(Form.Item).prop("help")).toBe("Fill in the input field");
     });

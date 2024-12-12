@@ -10,7 +10,7 @@ import static com.gmail.merikbest2015.ecommerce.constants.ErrorMessage.FILL_IN_T
 @Data
 public class ReviewRequest {
 
-    private Long perfumeId;
+    private Long productId;
 
     @NotBlank(message = FILL_IN_THE_INPUT_FIELD)
     private String author;
@@ -18,6 +18,6 @@ public class ReviewRequest {
     @NotBlank(message = FILL_IN_THE_INPUT_FIELD)
     private String message;
 
-    @NotNull(message = "Choose perfume rating")
+    @NotNull(message = "Choose product rating")
     private Integer rating;
 }

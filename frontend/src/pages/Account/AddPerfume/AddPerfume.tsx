@@ -7,35 +7,35 @@ import { UploadChangeParam } from "antd/lib/upload/interface";
 import {
     selectAdminStateErrors,
     selectIsAdminStateLoading,
-    selectIsPerfumeAdded
+    selectIsProductAdded
 } from "../../../redux-toolkit/admin/admin-selector";
 import { resetAdminState, setAdminLoadingState } from "../../../redux-toolkit/admin/admin-slice";
 import { LoadingStatus } from "../../../types/types";
-import { addPerfume } from "../../../redux-toolkit/admin/admin-thunks";
+import { addProduct } from "../../../redux-toolkit/admin/admin-thunks";
 import ContentTitle from "../../../components/ContentTitle/ContentTitle";
 import AddFormInput from "./AddFormInput";
 import AddFormSelect from "./AddFormSelect";
 import IconButton from "../../../components/IconButton/IconButton";
 
-type AddPerfumeData = {
-    perfumeTitle: string;
-    perfumer: string;
+type AddProductData = {
+    productTitle: string;
+    productr: string;
     year: string;
     country: string;
     type: string;
     volume: string;
-    perfumeGender: string;
+    productGender: string;
     fragranceTopNotes: string;
     fragranceMiddleNotes: string;
     fragranceBaseNotes: string;
     price: string;
 };
 
-const AddPerfume: FC = (): ReactElement => {
+const AddProduct: FC = (): ReactElement => {
     const dispatch = useDispatch();
-    const isPerfumeAdded = useSelector(selectIsPerfumeAdded);
-    const ispPerfumeLoading = useSelector(selectIsAdminStateLoading);
-    const perfumeErrors = useSelector(selectAdminStateErrors);
+    const isProductAdded = useSelector(selectIsProductAdded);
+    const ispProductLoading = useSelector(selectIsAdminStateLoading);
+    const productErrors = useSelector(selectAdminStateErrors);
     const [file, setFile] = React.useState<string>("");
 
     useEffect(() => {
@@ -47,26 +47,26 @@ const AddPerfume: FC = (): ReactElement => {
     }, []);
 
     useEffect(() => {
-        if (isPerfumeAdded) {
+        if (isProductAdded) {
             window.scrollTo(0, 0);
             notification.success({
-                message: "Perfume added",
-                description: "Perfume successfully added!"
+                message: "Product added",
+                description: "Product successfully added!"
             });
             dispatch(resetAdminState(LoadingStatus.SUCCESS));
         }
-    }, [isPerfumeAdded]);
+    }, [isProductAdded]);
 
-    const onFormSubmit = (data: AddPerfumeData): void => {
+    const onFormSubmit = (data: AddProductData): void => {
         const bodyFormData: FormData = new FormData();
         // @ts-ignore
         bodyFormData.append("file", { file });
         bodyFormData.append(
-            "perfume",
-            new Blob([JSON.stringify({ ...data, perfumeRating: 0 })], { type: "application/json" })
+            "product",
+            new Blob([JSON.stringify({ ...data, productRating: 0 })], { type: "application/json" })
         );
 
-        dispatch(addPerfume(bodyFormData));
+        dispatch(addProduct(bodyFormData));
     };
 
     const handleUpload = ({ file }: UploadChangeParam<any>): void => {
@@ -75,90 +75,90 @@ const AddPerfume: FC = (): ReactElement => {
 
     return (
         <>
-            <ContentTitle title={"Add perfume"} titleLevel={4} icon={<PlusSquareOutlined />} />
+            <ContentTitle title={"Add product"} titleLevel={4} icon={<PlusSquareOutlined />} />
             <Form onFinish={onFormSubmit}>
                 <Row gutter={32}>
                     <Col span={12}>
                         <AddFormInput
-                            title={"Perfume title"}
-                            name={"perfumeTitle"}
-                            error={perfumeErrors.perfumeTitleError}
-                            placeholder={"Enter the perfume title"}
-                            disabled={ispPerfumeLoading}
+                            title={"Product title"}
+                            name={"productTitle"}
+                            error={productErrors.productTitleError}
+                            placeholder={"Enter the product title"}
+                            disabled={ispProductLoading}
                         />
                         <AddFormInput
                             title={"Release year"}
                             name={"year"}
-                            error={perfumeErrors.yearError}
+                            error={productErrors.yearError}
                             placeholder={"Enter the release year"}
-                            disabled={ispPerfumeLoading}
+                            disabled={ispProductLoading}
                         />
                         <AddFormSelect
-                            title={"Perfume type"}
+                            title={"Product type"}
                             name={"type"}
-                            error={perfumeErrors.typeError}
+                            error={productErrors.typeError}
                             placeholder={"Eau de Parfum"}
-                            disabled={ispPerfumeLoading}
+                            disabled={ispProductLoading}
                             values={["Eau de Parfum", "Eau de Toilette"]}
                         />
                         <AddFormSelect
                             title={"Gender"}
-                            name={"perfumeGender"}
-                            error={perfumeErrors.perfumeGenderError}
+                            name={"productGender"}
+                            error={productErrors.productGenderError}
                             placeholder={"male"}
-                            disabled={ispPerfumeLoading}
+                            disabled={ispProductLoading}
                             values={["male", "female"]}
                         />
                         <AddFormInput
                             title={"Heart notes"}
                             name={"fragranceMiddleNotes"}
-                            error={perfumeErrors.fragranceMiddleNotesError}
+                            error={productErrors.fragranceMiddleNotesError}
                             placeholder={"Enter the heart notes"}
-                            disabled={ispPerfumeLoading}
+                            disabled={ispProductLoading}
                         />
                         <AddFormInput
                             title={"Price"}
                             name={"price"}
-                            error={perfumeErrors.priceError}
+                            error={productErrors.priceError}
                             placeholder={"Enter the price"}
-                            disabled={ispPerfumeLoading}
+                            disabled={ispProductLoading}
                         />
                     </Col>
                     <Col span={12}>
                         <AddFormInput
                             title={"Brand"}
-                            name={"perfumer"}
-                            error={perfumeErrors.perfumerError}
+                            name={"productr"}
+                            error={productErrors.productrError}
                             placeholder={"Enter the brand"}
-                            disabled={ispPerfumeLoading}
+                            disabled={ispProductLoading}
                         />
                         <AddFormInput
                             title={"Manufacturer country"}
                             name={"country"}
-                            error={perfumeErrors.countryError}
+                            error={productErrors.countryError}
                             placeholder={"Enter the manufacturer country"}
-                            disabled={ispPerfumeLoading}
+                            disabled={ispProductLoading}
                         />
                         <AddFormInput
                             title={"Volume"}
                             name={"volume"}
-                            error={perfumeErrors.volumeError}
+                            error={productErrors.volumeError}
                             placeholder={"Enter the volume"}
-                            disabled={ispPerfumeLoading}
+                            disabled={ispProductLoading}
                         />
                         <AddFormInput
                             title={"Top notes"}
                             name={"fragranceTopNotes"}
-                            error={perfumeErrors.fragranceTopNotesError}
+                            error={productErrors.fragranceTopNotesError}
                             placeholder={"Enter the top notes"}
-                            disabled={ispPerfumeLoading}
+                            disabled={ispProductLoading}
                         />
                         <AddFormInput
                             title={"Base notes"}
                             name={"fragranceBaseNotes"}
-                            error={perfumeErrors.fragranceBaseNotesError}
+                            error={productErrors.fragranceBaseNotesError}
                             placeholder={"Enter the base notes"}
-                            disabled={ispPerfumeLoading}
+                            disabled={ispProductLoading}
                         />
                         <Upload name={"file"} onChange={handleUpload} beforeUpload={() => false}>
                             <Button icon={<UploadOutlined />} style={{ marginTop: 22 }}>
@@ -173,4 +173,4 @@ const AddPerfume: FC = (): ReactElement => {
     );
 };
 
-export default AddPerfume;
+export default AddProduct;

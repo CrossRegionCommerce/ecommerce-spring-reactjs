@@ -1,9 +1,9 @@
 package com.gmail.merikbest2015.ecommerce.service.Impl;
 
-import com.gmail.merikbest2015.ecommerce.domain.Perfume;
+import com.gmail.merikbest2015.ecommerce.domain.Product;
 import com.gmail.merikbest2015.ecommerce.domain.User;
 import com.gmail.merikbest2015.ecommerce.enums.Role;
-import com.gmail.merikbest2015.ecommerce.repository.PerfumeRepository;
+import com.gmail.merikbest2015.ecommerce.repository.ProductRepository;
 import com.gmail.merikbest2015.ecommerce.repository.UserRepository;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -34,7 +34,7 @@ public class UserServiceImlTest {
     private UserRepository userRepository;
 
     @MockBean
-    private PerfumeRepository perfumeRepository;
+    private ProductRepository productRepository;
 
     @Test
     public void findUserById() {
@@ -74,19 +74,19 @@ public class UserServiceImlTest {
 
     @Test
     public void getCart() {
-        List<Long> perfumeIds = new ArrayList<>(Arrays.asList(2L, 4L));
-        Perfume firstPerfume = new Perfume();
-        firstPerfume.setId(2L);
-        Perfume secondPerfume = new Perfume();
-        secondPerfume.setId(4L);
-        List<Perfume> perfumeList = new ArrayList<>(Arrays.asList(firstPerfume, secondPerfume));
-        userService.getCart(perfumeIds);
+        List<Long> productIds = new ArrayList<>(Arrays.asList(2L, 4L));
+        Product firstProduct = new Product();
+        firstProduct.setId(2L);
+        Product secondProduct = new Product();
+        secondProduct.setId(4L);
+        List<Product> productList = new ArrayList<>(Arrays.asList(firstProduct, secondProduct));
+        userService.getCart(productIds);
 
-        when(perfumeRepository.findByIdIn(perfumeIds)).thenReturn(perfumeList);
-        assertEquals(2, perfumeList.size());
-        assertEquals(2, perfumeIds.size());
-        assertNotNull(perfumeList);
-        verify(perfumeRepository, times(1)).findByIdIn(perfumeIds);
+        when(productRepository.findByIdIn(productIds)).thenReturn(productList);
+        assertEquals(2, productList.size());
+        assertEquals(2, productIds.size());
+        assertNotNull(productList);
+        verify(productRepository, times(1)).findByIdIn(productIds);
     }
 
     @Test

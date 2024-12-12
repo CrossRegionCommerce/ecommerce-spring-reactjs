@@ -1,16 +1,16 @@
-package com.gmail.merikbest2015.ecommerce.dto.perfume;
+package com.gmail.merikbest2015.ecommerce.dto.product;
 
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-public class PerfumeResponse {
+public class ProductResponse {
     private Long id;
-    private String perfumeTitle;
-    private String perfumer;
+    private String productTitle;
+    private String productr;
     private Integer price;
-    private Double perfumeRating;
+    private Double productRating;
     private String filename;
     private Integer reviewsCount;
     private String volume;

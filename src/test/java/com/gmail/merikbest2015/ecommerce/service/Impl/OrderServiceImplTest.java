@@ -2,10 +2,10 @@ package com.gmail.merikbest2015.ecommerce.service.Impl;
 
 import com.gmail.merikbest2015.ecommerce.domain.Order;
 import com.gmail.merikbest2015.ecommerce.domain.OrderItem;
-import com.gmail.merikbest2015.ecommerce.domain.Perfume;
+import com.gmail.merikbest2015.ecommerce.domain.Product;
 import com.gmail.merikbest2015.ecommerce.repository.OrderItemRepository;
 import com.gmail.merikbest2015.ecommerce.repository.OrderRepository;
-import com.gmail.merikbest2015.ecommerce.repository.PerfumeRepository;
+import com.gmail.merikbest2015.ecommerce.repository.ProductRepository;
 import com.gmail.merikbest2015.ecommerce.service.email.MailSender;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -40,7 +40,7 @@ public class OrderServiceImplTest {
     private OrderItemRepository orderItemRepository;
 
     @MockBean
-    private PerfumeRepository perfumeRepository;
+    private ProductRepository productRepository;
 
     @MockBean
     private MailSender mailSender;
@@ -79,23 +79,23 @@ public class OrderServiceImplTest {
 
     @Test
     public void postOrder() {
-        Map<Long, Long> perfumesId = new HashMap<>();
-        perfumesId.put(1L, 1L);
-        perfumesId.put(2L, 1L);
+        Map<Long, Long> productsId = new HashMap<>();
+        productsId.put(1L, 1L);
+        productsId.put(2L, 1L);
 
-        Perfume perfume1 = new Perfume();
-        perfume1.setId(1L);
-        perfume1.setPrice(PRICE);
-        Perfume perfume2 = new Perfume();
-        perfume2.setPrice(PRICE);
-        perfume2.setId(2L);
+        Product product1 = new Product();
+        product1.setId(1L);
+        product1.setPrice(PRICE);
+        Product product2 = new Product();
+        product2.setPrice(PRICE);
+        product2.setId(2L);
 
         OrderItem orderItem1 = new OrderItem();
-        orderItem1.setPerfume(perfume1);
+        orderItem1.setProduct(product1);
         orderItem1.setAmount(192L);
         orderItem1.setQuantity(1L);
         OrderItem orderItem2 = new OrderItem();
-        orderItem2.setPerfume(perfume2);
+        orderItem2.setProduct(product2);
         orderItem2.setAmount(192L);
         orderItem2.setQuantity(1L);
 
@@ -111,12 +111,12 @@ public class OrderServiceImplTest {
         Map<String, Object> attributes = new HashMap<>();
         attributes.put("order", order);
 
-        when(perfumeRepository.findById(1L)).thenReturn(java.util.Optional.of(perfume1));
-        when(perfumeRepository.findById(2L)).thenReturn(java.util.Optional.of(perfume2));
+        when(productRepository.findById(1L)).thenReturn(java.util.Optional.of(product1));
+        when(productRepository.findById(2L)).thenReturn(java.util.Optional.of(product2));
         when(orderItemRepository.save(orderItem1)).thenReturn(orderItem1);
         when(orderItemRepository.save(orderItem2)).thenReturn(orderItem2);
         when(orderRepository.save(order)).thenReturn(order);
-        orderService.postOrder(order, perfumesId);
+        orderService.postOrder(order, productsId);
         assertNotNull(order);
         assertEquals(ORDER_EMAIL, order.getEmail());
         assertNotNull(orderItem1);

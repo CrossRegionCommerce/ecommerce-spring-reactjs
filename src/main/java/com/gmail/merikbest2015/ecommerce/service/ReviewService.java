@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface ReviewService {
 
-    List<Review> getReviewsByPerfumeId(Long perfumeId);
+    List<Review> getReviewsByProductId(Long productId);
 
-    Review addReviewToPerfume(Review review, Long perfumeId);
+    Review addReviewToProduct(Review review, Long productId);
 }

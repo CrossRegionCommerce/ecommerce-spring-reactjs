@@ -1,8 +1,8 @@
 package com.gmail.merikbest2015.ecommerce.service.Impl;
 
-import com.gmail.merikbest2015.ecommerce.domain.Perfume;
+import com.gmail.merikbest2015.ecommerce.domain.Product;
 import com.gmail.merikbest2015.ecommerce.domain.Review;
-import com.gmail.merikbest2015.ecommerce.repository.PerfumeRepository;
+import com.gmail.merikbest2015.ecommerce.repository.ProductRepository;
 import com.gmail.merikbest2015.ecommerce.repository.ReviewRepository;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -27,27 +27,27 @@ public class ReviewServiceImplTest {
     private ReviewServiceImpl reviewService;
 
     @MockBean
-    private PerfumeRepository perfumeRepository;
+    private ProductRepository productRepository;
 
     @MockBean
     private ReviewRepository reviewRepository;
 
     @Test
-    public void addReviewToPerfume() {
+    public void addReviewToProduct() {
         List<Review> reviewList = new ArrayList<>();
         Review review = new Review();
         review.setRating(5);
         reviewList.add(review);
-        Perfume perfume = new Perfume();
-        perfume.setId(123L);
-        perfume.setReviews(reviewList);
+        Product product = new Product();
+        product.setId(123L);
+        product.setReviews(reviewList);
 
-        when(perfumeRepository.findById(123L)).thenReturn(Optional.of(perfume));
+        when(productRepository.findById(123L)).thenReturn(Optional.of(product));
         when(reviewRepository.save(review)).thenReturn(review);
-        reviewService.addReviewToPerfume(review, 123L);
-        assertEquals(123L, perfume.getId());
-        assertNotNull(perfume.getReviews());
-        verify(perfumeRepository, times(1)).findById(123L);
+        reviewService.addReviewToProduct(review, 123L);
+        assertEquals(123L, product.getId());
+        assertNotNull(product.getReviews());
+        verify(productRepository, times(1)).findById(123L);
         verify(reviewRepository, times(1)).save(review);
     }
 }

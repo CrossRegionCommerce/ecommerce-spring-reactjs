@@ -10,8 +10,8 @@ import MenuCheckboxSection from "../MenuSection/MenuCheckboxSection";
 import MenuRadioSection from "../MenuSection/MenuRadioSection";
 import MenuSorter from "../MenuSorter/MenuSorter";
 import InputSearch from "../../../components/InputSearch/InputSearch";
-import { mockPerfumesResponse } from "../../../utils/test/__mocks__/perfumes-mock";
-import PerfumeCard from "../../../components/PerfumeCard/PerfumeCard";
+import { mockProductsResponse } from "../../../utils/test/__mocks__/products-mock";
+import ProductCard from "../../../components/ProductCard/ProductCard";
 import Menu, { CheckboxCategoryFilter } from "../Menu";
 
 window.scrollTo = jest.fn();
@@ -35,13 +35,13 @@ describe("Menu", () => {
         expect(wrapper.find(Spinner).exists()).toBe(true);
     });
 
-    it("should render perfumes list", () => {
-        const mockState = {...mockRootStore, perfumes: {...mockRootStore.perfumes, perfumes: mockPerfumesResponse}};
+    it("should render products list", () => {
+        const mockState = {...mockRootStore, products: {...mockRootStore.products, products: mockProductsResponse}};
         const wrapper = mountWithStore(<Menu />, mockState);
-        expect(wrapper.find(PerfumeCard).length).toEqual(3);
+        expect(wrapper.find(ProductCard).length).toEqual(3);
     });
 
-    it("should fetch Perfumes by gender", () => {
+    it("should fetch Products by gender", () => {
         jest.spyOn(routeData, "useLocation").mockReturnValue({
             pathname: MENU,
             hash: "",
@@ -52,7 +52,7 @@ describe("Menu", () => {
         expect(mockDispatchFn).nthCalledWith(1, expect.any(Function));
     });
 
-    it("should fetch all Perfumes", () => {
+    it("should fetch all Products", () => {
         jest.spyOn(routeData, "useLocation").mockReturnValue({
             pathname: MENU,
             hash: "",
@@ -63,7 +63,7 @@ describe("Menu", () => {
         expect(mockDispatchFn).nthCalledWith(1, expect.any(Function));
     });
 
-    it("should change perfumes category", () => {
+    it("should change products category", () => {
         testMenuCheckboxSection(0, "Brand", CheckboxCategoryFilter.PERFUMERS);
     });
 
@@ -85,14 +85,14 @@ describe("Menu", () => {
     });
 
     it("should change pagination", () => {
-        const mockState = {...mockRootStore, perfumes: {...mockRootStore.perfumes, totalElements: 100}};
+        const mockState = {...mockRootStore, products: {...mockRootStore.products, totalElements: 100}};
         const wrapper = mountWithStore(<Menu />, mockState);
         wrapper.find(Pagination).at(0).find("li").at(2).simulate("click");
         expect(mockDispatchFn).nthCalledWith(2, expect.any(Function));
     });
 
     it("should change pagination with search value", () => {
-        const mockState = {...mockRootStore, perfumes: {...mockRootStore.perfumes, totalElements: 100}};
+        const mockState = {...mockRootStore, products: {...mockRootStore.products, totalElements: 100}};
         const wrapper = mountWithStore(<Menu />, mockState);
         wrapper.find(InputSearch).find(Input).find("input").at(0).simulate("change", { target: { value: "test" } });
         wrapper.find(Pagination).at(0).find("li").at(2).simulate("click");
@@ -102,7 +102,7 @@ describe("Menu", () => {
     it("should change pagination with search value", () => {
         const wrapper = mountWithStore(<Menu />);
         wrapper.unmount();
-        expect(mockDispatchFn).nthCalledWith(2, { type: "perfumes/resetPerfumesState" });
+        expect(mockDispatchFn).nthCalledWith(2, { type: "products/resetProductsState" });
     });
     
     const testMenuCheckboxSection = (checkboxId: number, title: string, category: CheckboxCategoryFilter): void => {

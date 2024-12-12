@@ -1,13 +1,13 @@
 import React from "react";
 
 import { mountWithStore } from "../../../../../utils/test/testHelper";
-import PerfumeCardsSliderItem from "../PerfumeCardsSliderItem";
-import { mockPerfumesResponse } from "../../../../../utils/test/__mocks__/perfumes-mock";
-import PerfumeCard from "../../../../../components/PerfumeCard/PerfumeCard";
+import ProductCardsSliderItem from "../ProductCardsSliderItem";
+import { mockProductsResponse } from "../../../../../utils/test/__mocks__/products-mock";
+import ProductCard from "../../../../../components/ProductCard/ProductCard";
 
-describe("PerfumeCardsSliderItem", () => {
+describe("ProductCardsSliderItem", () => {
     it("should render correctly", () => {
-        const wrapper = mountWithStore(<PerfumeCardsSliderItem perfumes={mockPerfumesResponse} />);
-        expect(wrapper.find(PerfumeCard).length).toEqual(3);
+        const wrapper = mountWithStore(<ProductCardsSliderItem products={mockProductsResponse} />);
+        expect(wrapper.find(ProductCard).length).toEqual(3);
     });
 });

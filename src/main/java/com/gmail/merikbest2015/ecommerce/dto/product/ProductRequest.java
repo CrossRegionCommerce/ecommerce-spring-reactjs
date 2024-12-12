@@ -1,4 +1,4 @@
-package com.gmail.merikbest2015.ecommerce.dto.perfume;
+package com.gmail.merikbest2015.ecommerce.dto.product;
 
 import lombok.Data;
 import org.hibernate.validator.constraints.Length;
@@ -9,18 +9,18 @@ import javax.validation.constraints.NotNull;
 import static com.gmail.merikbest2015.ecommerce.constants.ErrorMessage.FILL_IN_THE_INPUT_FIELD;
 
 @Data
-public class PerfumeRequest {
+public class ProductRequest {
 
     private Long id;
     private String filename;
 
     @NotBlank(message = FILL_IN_THE_INPUT_FIELD)
     @Length(max = 255)
-    private String perfumeTitle;
+    private String productTitle;
 
     @NotBlank(message = FILL_IN_THE_INPUT_FIELD)
     @Length(max = 255)
-    private String perfumer;
+    private String productr;
 
     @NotNull(message = FILL_IN_THE_INPUT_FIELD)
     private Integer year;
@@ -31,7 +31,7 @@ public class PerfumeRequest {
 
     @NotBlank(message = FILL_IN_THE_INPUT_FIELD)
     @Length(max = 255)
-    private String perfumeGender;
+    private String productGender;
 
     @NotBlank(message = FILL_IN_THE_INPUT_FIELD)
     @Length(max = 255)

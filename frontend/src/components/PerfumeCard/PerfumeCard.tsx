@@ -4,20 +4,20 @@ import { Link } from "react-router-dom";
 import Meta from "antd/lib/card/Meta";
 import { DeleteOutlined, EditOutlined, ShoppingCartOutlined } from "@ant-design/icons";
 
-import { PerfumeResponse } from "../../types/types";
+import { ProductResponse } from "../../types/types";
 import { ACCOUNT_ADMIN_PERFUMES, PRODUCT } from "../../constants/routeConstants";
 import { useCart } from "../../hooks/useCart";
-import "./PerfumeCard.css";
+import "./ProductCard.css";
 
 type PropsType = {
-    perfume: PerfumeResponse;
+    product: ProductResponse;
     colSpan: number;
     edit?: boolean;
-    onOpenDelete?: (perfume: PerfumeResponse) => void;
+    onOpenDelete?: (product: ProductResponse) => void;
 };
 
-const PerfumeCard: FC<PropsType> = ({ perfume, colSpan, edit, onOpenDelete }): ReactElement => {
-    const { addToCart } = useCart(perfume.id);
+const ProductCard: FC<PropsType> = ({ product, colSpan, edit, onOpenDelete }): ReactElement => {
+    const { addToCart } = useCart(product.id);
 
     const onClickAddToCart = (event: any) => {
         event.preventDefault();
@@ -26,18 +26,18 @@ const PerfumeCard: FC<PropsType> = ({ perfume, colSpan, edit, onOpenDelete }): R
 
     return (
         <Col span={colSpan}>
-            <Link to={`${PRODUCT}/${perfume.id}`}>
+            <Link to={`${PRODUCT}/${product.id}`}>
                 <Card
-                    className={"perfume-card"}
-                    cover={<img className={"perfume-card-image"} alt={perfume.perfumeTitle} src={perfume.filename} />}
+                    className={"product-card"}
+                    cover={<img className={"product-card-image"} alt={product.productTitle} src={product.filename} />}
                     hoverable
                     actions={
                         edit
                             ? [
-                                  <Link to={`${ACCOUNT_ADMIN_PERFUMES}/${perfume.id}`}>
+                                  <Link to={`${ACCOUNT_ADMIN_PERFUMES}/${product.id}`}>
                                       <Button icon={<EditOutlined />}>Edit</Button>
                                   </Link>,
-                                  <Button icon={<DeleteOutlined />} onClick={() => onOpenDelete!(perfume)} danger>
+                                  <Button icon={<DeleteOutlined />} onClick={() => onOpenDelete!(product)} danger>
                                       Delete
                                   </Button>
                               ]
@@ -48,16 +48,16 @@ const PerfumeCard: FC<PropsType> = ({ perfume, colSpan, edit, onOpenDelete }): R
                               ]
                     }
                 >
-                    <div className={"perfume-card-rate"}>
-                        <Rate defaultValue={perfume.perfumeRating === 0 ? 5 : perfume.perfumeRating} disabled />
-                        <Typography.Text>{perfume.reviewsCount} reviews</Typography.Text>
+                    <div className={"product-card-rate"}>
+                        <Rate defaultValue={product.productRating === 0 ? 5 : product.productRating} disabled />
+                        <Typography.Text>{product.reviewsCount} reviews</Typography.Text>
                     </div>
-                    <Meta title={perfume.perfumeTitle} description={perfume.perfumer} style={{ textAlign: "center" }} />
-                    <Typography.Text className={"perfume-card-price"}>${perfume.price}.00</Typography.Text>
+                    <Meta title={product.productTitle} description={product.productr} style={{ textAlign: "center" }} />
+                    <Typography.Text className={"product-card-price"}>${product.price}.00</Typography.Text>
                 </Card>
             </Link>
         </Col>
     );
 };
 
-export default PerfumeCard;
+export default ProductCard;
